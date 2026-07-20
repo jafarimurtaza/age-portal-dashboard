@@ -3,29 +3,7 @@ import React from "react";
 export default function OverviewPage() {
   return (
     <div>
-      <header className="flex justify-between items-center p-4 flex-row">
-        <div>
-          <button>
-            <span>
-              <p>Icon</p>
-            </span>
-            <span>
-              <p>Search</p>
-            </span>
-          </button>
-        </div>
-
-        <div>
-          <button>
-            <span>
-              <p>Icon</p>
-            </span>
-            <span>
-              <p>Example@gmail.com</p>
-            </span>
-          </button>
-        </div>
-      </header>
+    
 
       <main>
         <div className="Tittle">
