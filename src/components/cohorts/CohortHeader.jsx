@@ -1,21 +1,27 @@
+"use client";
+
 import React from "react";
 
 export default function CohortHeader() {
   return (
-    <div className="flex items-center justify-between">
+    <section className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white px-6 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold tracking-tight text-gray-900">
           Cohorts
         </h1>
 
-        <p className="mt-2 text-gray-500">
-          Manage all cohorts from one place.
+        <p className="mt-1 text-sm text-gray-500">
+          Manage and monitor all cohorts in the system.
         </p>
       </div>
 
-      <button className="rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700">
-        + Add Cohort
+      <button
+        type="button"
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#4f46e5] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4338ca]"
+      >
+        <span className="text-lg leading-none">+</span>
+        Add Cohort
       </button>
-    </div>
+    </section>
   );
 }

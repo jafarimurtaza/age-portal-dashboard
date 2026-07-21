@@ -1,13 +1,25 @@
 import CohortHeader from "@/components/cohorts/CohortHeader";
-import React from "react";
-
-
+import StatsCards from "@/components/cohorts/StatsCards";
+import SearchFilter from "@/components/cohorts/SearchFilter";
+import CohortTable from "@/components/cohorts/CohortTable";
+import Pagination from "@/components/cohorts/Pagination";
 
 export default function CohortsPage() {
   return (
-    <div className="p-6 space-y-6">
-      CohortsPage
-      <CohortHeader/>
-    </div>
+    <main className="min-h-screen bg-[#f8f9fc] px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1400px] space-y-5">
+
+        <CohortHeader />
+
+        <StatsCards />
+
+        <SearchFilter />
+
+        <CohortTable />
+
+        <Pagination />
+
+      </div>
+    </main>
   );
 }
