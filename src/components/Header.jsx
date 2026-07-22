@@ -29,7 +29,7 @@ export default function Header() {
               <CiUser className="text-gray-600 " />
             </span>
             <span>
-              <p className="text-xs hidden sm:block md:block text-gray-600 truncate max-w-[100px] sm:max-w-none">
+              <p className="text-xs hidden sm:block md:block text-gray-600 truncate max-w-25 sm:max-w-none">
                 Example@gmail.com
               </p>
             </span>
