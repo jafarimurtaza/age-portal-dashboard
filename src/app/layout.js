@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
           <div className="bg-red-200 w-full">
             <Header />
             <main className="min-h-screen">{children}</main>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       </body>
