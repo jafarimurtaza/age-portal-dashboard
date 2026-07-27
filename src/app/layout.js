@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
         <div className="flex">
           <div className="w-full">
             <main className="min-h-screen">{children}</main>
+            {/* <Footer /> */}
           </div>
         </div>
       </body>
