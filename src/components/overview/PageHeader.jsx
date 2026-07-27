@@ -2,7 +2,7 @@ import StatCard from "./StatCard";
 
 export default function PageHeader() {
   return (
-    <div className="rounded-2xl bg-white p-4 sm:p-6 shadow-sm">
+    <div className="rounded-2xl bg-base-300 p-4 sm:p-6 shadow-sm">
       <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900">
         Overview
       </h1>
