@@ -19,7 +19,7 @@ export default function Header() {
           <span className="text-lg bg-gray-300 rounded-full p-2">
             <CiUser className="text-gray-600" />
           </span>
-          <span className="text-xs text-gray-600 truncate max-w-[140px]">
+          <span className="text-xs text-gray-600 truncate max-w-35">
             Example@gmail.com
           </span>
         </button>
