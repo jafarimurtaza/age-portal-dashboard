@@ -1,55 +1,61 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+
+function ChevronLeft() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="m15 18-6-6 6-6" />
+    </svg>
+  );
+}
+
+function ChevronRight() {
+  return (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="m9 18 6-6-6-6" />
+    </svg>
+  );
+}
 
 export default function Pagination() {
-  return (
-    <section className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+  const [page, setPage] = useState(1);
 
-      <p className="text-sm text-gray-500">
-        Showing <span className="font-medium text-gray-700">1-5</span> of{" "}
-        <span className="font-medium text-gray-700">24</span> cohorts
+  return (
+    <div className="flex items-center justify-between rounded-[12px] border border-[#E7E8F0] bg-white px-5 py-4">
+      <p className="text-[13px] text-[#68708A]">
+        Showing 1 to 5 of 12 cohorts
       </p>
 
       <div className="flex items-center gap-2">
-
         <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50"
+          onClick={() => setPage(Math.max(1, page - 1))}
+          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E1E3EC] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
         >
-          ‹
+          <ChevronLeft />
         </button>
 
-        <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-600 text-sm font-semibold text-white"
-        >
-          1
-        </button>
+        {[1, 2, 3].map((number) => (
+          <button
+            key={number}
+            onClick={() => setPage(number)}
+            className={`flex h-[38px] w-[38px] items-center justify-center rounded-[9px] text-[14px] font-semibold transition ${
+              page === number
+                ? "bg-[#4B21E8] text-white shadow-[0_5px_12px_rgba(75,33,232,0.22)]"
+                : "border border-[#E1E3EC] text-[#11142D] hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
+            }`}
+          >
+            {number}
+          </button>
+        ))}
 
         <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-300 text-sm text-gray-600 hover:bg-gray-50"
+          onClick={() => setPage(Math.min(3, page + 1))}
+          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E1E3EC] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
         >
-          2
+          <ChevronRight />
         </button>
-
-        <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-300 text-sm text-gray-600 hover:bg-gray-50"
-        >
-          3
-        </button>
-
-        <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-50"
-        >
-          ›
-        </button>
-
       </div>
-
-    </section>
+    </div>
   );
 }

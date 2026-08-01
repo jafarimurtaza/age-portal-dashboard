@@ -2,25 +2,109 @@
 
 import React from "react";
 
-export default function SearchFilter() {
+function SearchIcon() {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-4-4" />
+    </svg>
+  );
+}
 
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.5fr_1fr_1fr_0.8fr]">
+function ResetIcon() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <path d="M3 4v6h6" />
+    </svg>
+  );
+}
 
+export default function SearchFilter({
+  filters,
+  onFilterChange,
+  onReset,
+}) {
+  function updateFilter(key, value) {
+    onFilterChange({
+      ...filters,
+      [key]: value,
+    });
+  }
+
+  return (
+    <div
+      className="
+        rounded-[12px]
+        border border-[#E7E8F0]
+        bg-white
+        px-5 py-5
+        shadow-[0_2px_8px_rgba(17,20,45,0.025)]
+      "
+    >
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr_1fr_1fr_auto]">
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-            ⌕
-          </span>
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#68708A]">
+            <SearchIcon />
+          </div>
 
           <input
-            type="text"
+            value={filters.search}
+            onChange={(e) =>
+              updateFilter("search", e.target.value)
+            }
             placeholder="Search cohorts..."
-            className="h-11 w-full rounded-lg border border-gray-300 bg-white pl-10 pr-4 text-sm text-gray-700 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+            className="
+              h-[43px]
+              w-full
+              rounded-[8px]
+              border border-[#E1E3EC]
+              bg-white
+              pl-10
+              pr-4
+              text-[14px]
+              text-[#11142D]
+              outline-none
+              transition
+              placeholder:text-[#8A90A3]
+              focus:border-[#5B2BEE]
+              focus:ring-2
+              focus:ring-[#5B2BEE]/10
+            "
           />
         </div>
 
-        <select className="h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-600 outline-none focus:border-indigo-500">
+        <select
+          value={filters.status}
+          onChange={(e) =>
+            updateFilter("status", e.target.value)
+          }
+          className="
+            h-[43px]
+            rounded-[8px]
+            border border-[#E1E3EC]
+            bg-white
+            px-4
+            text-[14px]
+            text-[#11142D]
+            outline-none
+            focus:border-[#5B2BEE]
+          "
+        >
           <option>All Status</option>
           <option>Active</option>
           <option>Completed</option>
@@ -28,43 +112,74 @@ export default function SearchFilter() {
           <option>Archived</option>
         </select>
 
-        <select className="h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-600 outline-none focus:border-indigo-500">
+        <select
+          value={filters.category}
+          onChange={(e) =>
+            updateFilter("category", e.target.value)
+          }
+          className="
+            h-[43px]
+            rounded-[8px]
+            border border-[#E1E3EC]
+            bg-white
+            px-4
+            text-[14px]
+            text-[#11142D]
+            outline-none
+            focus:border-[#5B2BEE]
+          "
+        >
           <option>All Categories</option>
-          <option>Development</option>
-          <option>Mobile</option>
+          <option>Technology</option>
+          <option>Data Science</option>
           <option>Design</option>
-          <option>Data</option>
-          <option>Cloud</option>
         </select>
 
-        <select className="h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm text-gray-600 outline-none focus:border-indigo-500">
+        <select
+          value={filters.sort}
+          onChange={(e) =>
+            updateFilter("sort", e.target.value)
+          }
+          className="
+            h-[43px]
+            rounded-[8px]
+            border border-[#E1E3EC]
+            bg-white
+            px-4
+            text-[14px]
+            text-[#11142D]
+            outline-none
+            focus:border-[#5B2BEE]
+          "
+        >
           <option>Newest</option>
           <option>Oldest</option>
           <option>Most Graduates</option>
-          <option>Most Projects</option>
         </select>
 
-      </div>
-
-      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
         <button
-          type="button"
-          className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-indigo-600"
+          onClick={onReset}
+          className="
+            flex
+            h-[43px]
+            items-center
+            justify-center
+            gap-2
+            rounded-[8px]
+            border border-[#E1E3EC]
+            px-5
+            text-[14px]
+            font-semibold
+            text-[#11142D]
+            transition
+            hover:border-[#5B2BEE]
+            hover:text-[#5B2BEE]
+          "
         >
-          <span>⚱</span>
-          Filter cohorts
+          <ResetIcon />
+          Reset
         </button>
-
-        <button
-          type="button"
-          className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
-        >
-          ↻ Reset Filters
-        </button>
-
       </div>
-
-    </section>
+    </div>
   );
 }
