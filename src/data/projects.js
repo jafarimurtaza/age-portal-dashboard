@@ -56,7 +56,6 @@ export const projects = [
     icon: "users",
   },
 ];
-
 export const stats = [
   {
     label: "Total Projects",
@@ -64,7 +63,7 @@ export const stats = [
     change: "12%",
     trend: "up",
     icon: "folder",
-    color: "teal",
+    color: "navy",
   },
   {
     label: "Published",
@@ -72,7 +71,7 @@ export const stats = [
     change: "8%",
     trend: "up",
     icon: "send",
-    color: "violet",
+    color: "gold",
   },
   {
     label: "In Review",
@@ -80,7 +79,7 @@ export const stats = [
     change: "5%",
     trend: "down",
     icon: "clock",
-    color: "orange",
+    color: "warning",
   },
   {
     label: "Archived",
@@ -88,7 +87,7 @@ export const stats = [
     change: "2%",
     trend: "up",
     icon: "archive",
-    color: "blue",
+    color: "dark",
   },
   {
     label: "Avg. Rating",
@@ -96,6 +95,6 @@ export const stats = [
     change: null,
     trend: null,
     icon: "star",
-    color: "pink",
+    color: "gold",
   },
 ];

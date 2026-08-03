@@ -1,34 +1,13 @@
 const colorMap = {
-  teal: {
-    bg: "from-teal-500/20 to-teal-500/5",
-    ring: "bg-teal-500",
-    stroke: "#2dd4bf",
-    glow: "shadow-teal-500/20",
+  navy: { bg: "bg-[#1B3A6B]/10", ring: "bg-[#1B3A6B]", stroke: "#1B3A6B" },
+  gold: { bg: "bg-[#C8955A]/10", ring: "bg-[#C8955A]", stroke: "#C8955A" },
+  success: {
+    bg: "bg-emerald-500/10",
+    ring: "bg-emerald-500",
+    stroke: "#22c55e",
   },
-  violet: {
-    bg: "from-violet-500/20 to-violet-500/5",
-    ring: "bg-violet-500",
-    stroke: "#c4b5fd",
-    glow: "shadow-violet-500/20",
-  },
-  orange: {
-    bg: "from-orange-500/20 to-orange-500/5",
-    ring: "bg-orange-500",
-    stroke: "#fb923c",
-    glow: "shadow-orange-500/20",
-  },
-  blue: {
-    bg: "from-blue-500/20 to-blue-500/5",
-    ring: "bg-blue-500",
-    stroke: "#60a5fa",
-    glow: "shadow-blue-500/20",
-  },
-  pink: {
-    bg: "from-pink-500/20 to-pink-500/5",
-    ring: "bg-pink-500",
-    stroke: "#f472b6",
-    glow: "shadow-pink-500/20",
-  },
+  warning: { bg: "bg-amber-500/10", ring: "bg-amber-500", stroke: "#f59e0b" },
+  dark: { bg: "bg-[#0B0F19]/10", ring: "bg-[#0B0F19]", stroke: "#0B0F19" },
 };
 
 const icons = {
@@ -117,8 +96,8 @@ function StarRow({ rating }) {
           width="12"
           height="12"
           viewBox="0 0 24 24"
-          fill={i <= fullStars ? "#4ade80" : "none"}
-          stroke="#4ade80"
+          fill={i <= fullStars ? "#C8955A" : "none"}
+          stroke="#C8955A"
           strokeWidth="1.5"
         >
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -129,31 +108,32 @@ function StarRow({ rating }) {
 }
 
 export default function StatCard({ label, value, change, trend, icon, color }) {
-  const c = colorMap[color] || colorMap.teal;
+  const c = colorMap[color] || colorMap.navy;
   const isRating = icon === "star";
 
   return (
     <div
-      className={`rounded-2xl border border-white/10 p-5 flex-1 min-w-[160px] bg-gradient-to-br ${c.bg} shadow-lg ${c.glow}`}
+      className={`rounded-2xl border border-[#0B0F19]/10 p-4 sm:p-5 flex-1 min-w-[140px] bg-white shadow-sm`}
     >
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center ${c.ring} mb-4 shadow-md`}
+        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${c.ring} mb-3 sm:mb-4`}
       >
         {icons[icon]}
       </div>
-      <p className="text-sm text-slate-300 mb-1">{label}</p>
-      <p className="text-2xl font-bold text-white mb-1">{value}</p>
+      <p className="text-xs sm:text-sm text-[#0B0F19]/60 mb-1">{label}</p>
+      <p className="text-xl sm:text-2xl font-bold text-[#0B0F19] mb-1">
+        {value}
+      </p>
       {change && (
         <p
-          className={`text-xs mb-3 ${trend === "up" ? "text-emerald-400" : "text-red-400"}`}
+          className={`not-last-of-type:text-xs mb-2 sm:mb-3 ${trend === "up" ? "text-emerald-600" : "text-red-500"}`}
         >
           {trend === "up" ? "↑" : "↓"} {change} from last month
         </p>
       )}
-
       <svg
         width="100%"
-        height="28"
+        height="24"
         viewBox="0 0 100 28"
         preserveAspectRatio="none"
       >
@@ -163,10 +143,8 @@ export default function StatCard({ label, value, change, trend, icon, color }) {
           stroke={c.stroke}
           strokeWidth="2"
           strokeLinecap="round"
-          style={{ filter: `drop-shadow(0 0 5px ${c.stroke}) ` }}
         />
       </svg>
-
       {isRating && <StarRow rating={value} />}
     </div>
   );

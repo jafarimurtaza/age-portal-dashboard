@@ -1,20 +1,54 @@
 "use client";
 import { useState } from "react";
-import PageHeader from "@/components/projects/PageHeader";
-import StatCardsRow from "@/components/projects/StatCardsRow";
+import { Fraunces } from "next/font/google";
+import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
 import ProjectsTable from "@/components/projects/ProjectsTable";
 import Pagination from "@/components/projects/Pagination";
-import { projects, stats } from "@/data/projects";
+import AddProjectModal from "@/components/projects/AddProjectModal";
+import { projects as initialProjects, stats } from "@/data/projects";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-fraunces",
+});
 
 export default function ProjectsPage() {
+  const [projects, setProjects] = useState(initialProjects);
   const [filters, setFilters] = useState({
     search: "",
     status: "",
     cohort: "",
   });
   const [activeTab, setActiveTab] = useState("All");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState(null);
+
+  const handleDelete = (id) => {
+    setProjects(projects.filter((p) => p.id !== id));
+  };
+
+  const handleAdd = (newProject) => {
+    setProjects([newProject, ...projects]);
+  };
+
+  const handleEdit = (updatedProject) => {
+    setProjects(
+      projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
+    );
+  };
+
+  const openAddModal = () => {
+    setEditingProject(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (project) => {
+    setEditingProject(project);
+    setIsModalOpen(true);
+  };
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.name
@@ -28,18 +62,36 @@ export default function ProjectsPage() {
       : true;
     const matchesTab =
       activeTab === "All" ? true : project.status === activeTab;
-
     return matchesSearch && matchesStatus && matchesCohort && matchesTab;
   });
 
   return (
-    <div className="p-8 bg-slate-950 min-h-screen">
-      <PageHeader />
-      <StatCardsRow stats={stats} />
-      <Toolbar filters={filters} setFilters={setFilters} />
-      <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ProjectsTable projects={filteredProjects} />
-      <Pagination total={128} shown={filteredProjects.length} />
+    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
+      <LedgerHeader stats={stats} onAddClick={openAddModal} />
+
+      <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
+        <Toolbar filters={filters} setFilters={setFilters} />
+        <div className="mt-6">
+          <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        </div>
+        <div className="mt-4">
+          <ProjectsTable
+            projects={filteredProjects}
+            onDelete={handleDelete}
+            onEditClick={openEditModal}
+          />
+        </div>
+        <Pagination total={128} shown={filteredProjects.length} />
+        <div className="h-10" />
+      </div>
+
+      <AddProjectModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAdd={handleAdd}
+        onEdit={handleEdit}
+        editingProject={editingProject}
+      />
     </div>
   );
 }

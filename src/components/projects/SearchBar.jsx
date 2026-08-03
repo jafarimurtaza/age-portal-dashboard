@@ -5,7 +5,7 @@ export default function SearchBar({ value, onChange }) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="Search project..."
-      className="bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-300 placeholder-slate-500 flex-1"
+      className="bg-[#FAF7F2] border-none rounded-xl px-4 py-2.5 text-sm text-[#000000] placeholder-[#0B0F19]/35 flex-1 w-full focus:ring-2 focus:ring-[#051364]/40 outline-none"
     />
   );
 }

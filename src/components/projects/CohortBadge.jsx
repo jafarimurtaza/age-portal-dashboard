@@ -1,11 +1,11 @@
 const cohortColors = {
-  "Cohort 1": "bg-orange-500/20 text-orange-300",
-  "Cohort 2": "bg-violet-500/20 text-violet-300",
-  "Cohort 3": "bg-emerald-500/20 text-emerald-300",
+  "Cohort 1": "bg-[#C8955A]/10 text-[#8a6539]",
+  "Cohort 2": "bg-[#1B3A6B]/10 text-[#1B3A6B]",
+  "Cohort 3": "bg-emerald-50 text-emerald-700",
 };
 
 export default function CohortBadge({ cohort }) {
-  const style = cohortColors[cohort] || "bg-slate-500/20 text-slate-300";
+  const style = cohortColors[cohort] || "bg-gray-100 text-gray-600";
 
   return (
     <span

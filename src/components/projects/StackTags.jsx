@@ -4,7 +4,7 @@ export default function StackTags({ stack }) {
       {stack.map((tech) => (
         <span
           key={tech}
-          className="bg-blue-500/10 text-blue-300 text-xs font-medium px-3 py-1 rounded-lg"
+          className="bg-[#1B3A6B]/10 text-[#1B3A6B] text-xs font-medium px-3 py-1 rounded-lg"
         >
           {tech}
         </span>

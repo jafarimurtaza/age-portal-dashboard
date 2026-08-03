@@ -3,12 +3,12 @@ import FilterDropdown from "./FilterDropdown";
 
 export default function Toolbar({ filters, setFilters }) {
   return (
-    <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-4">
+    <div className="bg-white border border-[#0B0F19]/8 rounded-2xl shadow-lg shadow-[#0B0F19]/5 p-4 sm:p-5 flex flex-col gap-4">
       <SearchBar
         value={filters.search}
         onChange={(val) => setFilters({ ...filters, search: val })}
       />
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
         <FilterDropdown
           label="All Status"
           options={["Published", "In Review", "Draft", "Archived"]}
