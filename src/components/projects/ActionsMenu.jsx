@@ -1,80 +1,58 @@
 "use client";
-import { useState } from "react";
-import { Fraunces } from "next/font/google";
-import LedgerHeader from "@/components/projects/LedgerHeader";
-import Toolbar from "@/components/projects/Toolbar";
-import FilterTabs from "@/components/projects/FilterTabs";
-import ProjectsTable from "@/components/projects/ProjectsTable";
-import Pagination from "@/components/projects/Pagination";
-import AddProjectModal from "@/components/projects/AddProjectModal";
-import { projects as initialProjects, stats } from "@/data/projects";
+import { useState, useRef, useEffect } from "react";
+import { FiMoreVertical, FiEdit2, FiTrash2 } from "react-icons/fi";
 
-const fraunces = Fraunces({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-fraunces" });
+export default function ActionsMenu({ onDelete, onEdit, projectName }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
 
-export default function ProjectsPage() {
-  const [projects, setProjects] = useState(initialProjects);
-  const [filters, setFilters] = useState({ search: "", status: "", cohort: "" });
-  const [activeTab, setActiveTab] = useState("All");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
-
-  const handleDelete = (id) => {
-    setProjects(projects.filter((p) => p.id !== id));
-  };
-
-  const handleAdd = (newProject) => {
-    setProjects([newProject, ...projects]);
-  };
-
-  const handleEdit = (updatedProject) => {
-    setProjects(projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)));
-  };
-
-  const openAddModal = () => {
-    setEditingProject(null);
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (project) => {
-    setEditingProject(project);
-    setIsModalOpen(true);
-  };
-
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.name.toLowerCase().includes(filters.search.toLowerCase());
-    const matchesStatus = filters.status ? project.status === filters.status : true;
-    const matchesCohort = filters.cohort ? project.cohort === filters.cohort : true;
-    const matchesTab = activeTab === "All" ? true : project.status === activeTab;
-    return matchesSearch && matchesStatus && matchesCohort && matchesTab;
-  });
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
-      <LedgerHeader stats={stats} onAddClick={openAddModal} />
+    <div className="relative inline-block text-left" ref={menuRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-2 rounded-xl text-[#FAF7F2]/60 hover:text-[#FAF7F2] hover:bg-white/10 transition-colors"
+        title="Actions"
+        type="button"
+      >
+        <FiMoreVertical className="w-5 h-5" />
+      </button>
 
-      <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
-        <Toolbar filters={filters} setFilters={setFilters} />
-        <div className="mt-6">
-          <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-44 rounded-xl bg-[#0B0F19] border border-white/10 shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              onEdit();
+            }}
+            className="w-full px-4 py-2 text-xs text-[#FAF7F2] hover:bg-white/10 flex items-center gap-2.5 transition-colors"
+            type="button"
+          >
+            <FiEdit2 className="w-4 h-4 text-[#C8955A]" />
+            <span>Edit Project</span>
+          </button>
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              onDelete();
+            }}
+            className="w-full px-4 py-2 text-xs text-rose-400 hover:bg-rose-500/10 flex items-center gap-2.5 transition-colors"
+            type="button"
+          >
+            <FiTrash2 className="w-4 h-4" />
+            <span>Delete Project</span>
+          </button>
         </div>
-        <div className="mt-4">
-          <ProjectsTable
-            projects={filteredProjects}
-            onDelete={handleDelete}
-            onEditClick={openEditModal}
-          />
-        </div>
-        <Pagination total={128} shown={filteredProjects.length} />
-        <div className="h-10" />
-      </div>
-
-      <AddProjectModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-        editingProject={editingProject}
-      />
+      )}
     </div>
   );
 }

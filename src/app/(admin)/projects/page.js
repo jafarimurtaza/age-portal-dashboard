@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Fraunces } from "next/font/google";
 import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
@@ -8,12 +7,6 @@ import ProjectsTable from "@/components/projects/ProjectsTable";
 import Pagination from "@/components/projects/Pagination";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import { projects as initialProjects, stats } from "@/data/projects";
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-fraunces",
-});
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(initialProjects);
@@ -66,7 +59,7 @@ export default function ProjectsPage() {
   });
 
   return (
-    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
+    <div className="bg-[#F5F0E8] min-h-screen">
       <LedgerHeader stats={stats} onAddClick={openAddModal} />
 
       <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
