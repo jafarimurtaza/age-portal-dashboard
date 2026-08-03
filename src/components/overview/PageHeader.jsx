@@ -1,4 +1,4 @@
-import StatCard from "./StatCard";
+import StatsGrid from "./OverviewStatsGrid";
 
 export default function PageHeader() {
   return (
@@ -9,7 +9,7 @@ export default function PageHeader() {
       <p className="mt-3 mb-4 text-sm sm:text-base text-slate-600 max-w-3xl">
         A snapshot of graduates, cohorts, and project activity.
       </p>
-      <StatCard />
+      <StatsGrid />
     </div>
   );
 }
