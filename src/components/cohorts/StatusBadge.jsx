@@ -1,18 +1,18 @@
+"use client";
+
 import React from "react";
 
 export default function StatusBadge({ status }) {
   const styles = {
-    Active: "bg-green-100 text-green-700",
-    Completed: "bg-blue-100 text-blue-700",
-    Pending: "bg-yellow-100 text-yellow-700",
-    Archived: "bg-red-100 text-red-700",
+    Active: "bg-[#E4F8EA] text-[#159447]",
+    Completed: "bg-[#E5F0FF] text-[#2563EB]",
+    Pending: "bg-[#FFF4D6] text-[#C58A00]",
+    Archived: "bg-[#FDE7E7] text-[#D64545]",
   };
 
   return (
     <span
-      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-        styles[status] || "bg-gray-100 text-gray-600"
-      }`}
+      className={`inline-flex rounded-full px-3 py-1 text-[12px] font-semibold ${styles[status] || "bg-gray-100 text-gray-600"}`}
     >
       {status}
     </span>
