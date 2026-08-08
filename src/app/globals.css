@@ -10,32 +10,22 @@
    */
 
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "my-theme";
   default: true;
   prefersdark: false;
   color-scheme: light;
 
-  /* Brand */
-  --color-primary: #183a6b; /* Navy */
-  --color-secondary: #c8955a; /* Gold */
-  --color-accent: #c8955a;
+  --color-primary: #C8955A;
+  --color-neutral: #0B0F19;
+  --color-base-100: #FAF7F2;
+  --color-base-200: #F5F0E8;
+  --color-base-300: #1B3A6B;
+  --color-base-content: #C8955A;
 
-  /* Neutral */
-  --color-neutral: #0b0f19;
-
-  /* Backgrounds */
-  --color-base-100: #faf7f2; /* Cream */
-  --color-base-200: #f5f0e8; /* Sand */
-  --color-base-300: #c8955a; /* gold */
-
-  /* Text */
-  --color-base-content: #0b0f19;
-
-  /* States */
-  --color-info: #3b82f6;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
+  --color-info: #3B82F6;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
 }
 
 :root {
