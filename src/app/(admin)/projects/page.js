@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Fraunces } from "next/font/google";
 import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
@@ -7,6 +8,13 @@ import ProjectsTable from "@/components/projects/ProjectsTable";
 import Pagination from "@/components/projects/Pagination";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import { projects as initialProjects, stats } from "@/data/projects";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-fraunces",
+});
+const PAGE_SIZE = 2;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(initialProjects);
@@ -18,6 +26,7 @@ export default function ProjectsPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleDelete = (id) => {
     setProjects(projects.filter((p) => p.id !== id));
@@ -58,8 +67,18 @@ export default function ProjectsPage() {
     return matchesSearch && matchesStatus && matchesCohort && matchesTab;
   });
 
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProjects.length / PAGE_SIZE),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedProjects = filteredProjects.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
+
   return (
-    <div className="bg-[#F5F0E8] min-h-screen">
+    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
       <LedgerHeader stats={stats} onAddClick={openAddModal} />
 
       <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
@@ -69,12 +88,18 @@ export default function ProjectsPage() {
         </div>
         <div className="mt-4">
           <ProjectsTable
-            projects={filteredProjects}
+            projects={paginatedProjects}
             onDelete={handleDelete}
             onEditClick={openEditModal}
           />
         </div>
-        <Pagination total={128} shown={filteredProjects.length} />
+        <Pagination
+          total={filteredProjects.length}
+          shown={paginatedProjects.length}
+          currentPage={safePage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
         <div className="h-10" />
       </div>
 

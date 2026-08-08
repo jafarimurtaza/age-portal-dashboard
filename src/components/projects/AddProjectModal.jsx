@@ -87,8 +87,8 @@ export default function AddProjectModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-[#0B0F19]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
+    <div className="fixed inset-0 bg-[#0B0F19]/60 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden max-h-[92vh] sm:max-h-none">
         <div className="bg-gradient-to-r from-[#0B0F19] to-[#1B3A6B] px-6 py-5">
           <h2 className="font-[family-name:var(--font-fraunces)] text-xl text-[#FAF7F2]">
             {isEditMode ? "Edit Project" : "New Project"}
@@ -130,7 +130,7 @@ export default function AddProjectModal({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
                 Cohort
