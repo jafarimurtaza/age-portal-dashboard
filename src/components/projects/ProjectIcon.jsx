@@ -62,11 +62,8 @@ const icons = {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path
-        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-        transform="translate(2)"
-      />
       <circle cx="9" cy="7" r="4" />
+      <path d="M15 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     </svg>
   ),
 };
@@ -88,8 +85,9 @@ const defaultIcon = (
 );
 
 export default function ProjectIcon({ index = 0, stack = [] }) {
+  const safeStack = Array.isArray(stack) ? stack : [];
   const bg = palettes[index % palettes.length];
-  const icon = icons[stack[0]] || defaultIcon;
+  const icon = icons[safeStack[0]] || defaultIcon;
 
   return (
     <div

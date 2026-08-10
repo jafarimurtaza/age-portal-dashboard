@@ -4,7 +4,7 @@ import { Fraunces } from "next/font/google";
 import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
-import ProjectsTable from "@/components/projects/ProjectsTable";
+import ProjectsGrid from "@/components/projects/ProjectsGrid";
 import Pagination from "@/components/projects/Pagination";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import { projects as initialProjects, stats } from "@/data/projects";
@@ -14,9 +14,10 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600"],
   variable: "--font-fraunces",
 });
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 4;
 
 export default function ProjectsPage() {
+  const [dark, setDark] = useState(true);
   const [projects, setProjects] = useState(initialProjects);
   const [filters, setFilters] = useState({
     search: "",
@@ -29,25 +30,14 @@ export default function ProjectsPage() {
   const [editingProject, setEditingProject] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handleDelete = (id) => {
-    setProjects(projects.filter((p) => p.id !== id));
-  };
-
-  const handleAdd = (newProject) => {
-    setProjects([newProject, ...projects]);
-  };
-
-  const handleEdit = (updatedProject) => {
-    setProjects(
-      projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
-    );
-  };
-
+  const handleDelete = (id) => setProjects(projects.filter((p) => p.id !== id));
+  const handleAdd = (newProject) => setProjects([newProject, ...projects]);
+  const handleEdit = (updated) =>
+    setProjects(projects.map((p) => (p.id === updated.id ? updated : p)));
   const openAddModal = () => {
     setEditingProject(null);
     setIsModalOpen(true);
   };
-
   const openEditModal = (project) => {
     setEditingProject(project);
     setIsModalOpen(true);
@@ -72,7 +62,7 @@ export default function ProjectsPage() {
     if (sortBy === "name-asc") return a.name.localeCompare(b.name);
     if (sortBy === "name-desc") return b.name.localeCompare(a.name);
     if (sortBy === "oldest") return a.id - b.id;
-    return b.id - a.id; // recent (default) — بزرگ‌ترین id = جدیدترین
+    return b.id - a.id;
   });
 
   const totalPages = Math.max(1, Math.ceil(sortedProjects.length / PAGE_SIZE));
@@ -83,24 +73,37 @@ export default function ProjectsPage() {
   );
 
   return (
-    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
-      <LedgerHeader stats={stats} onAddClick={openAddModal} />
+    <div
+      className={`${fraunces.variable} min-h-screen transition-colors duration-300 ${dark ? "bg-[#05070c]" : "bg-[#F5F0E8]"}`}
+    >
+      <LedgerHeader
+        stats={stats}
+        onAddClick={openAddModal}
+        dark={dark}
+        setDark={setDark}
+      />
 
-      <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
+      <div className="px-4 sm:px-6 lg:px-10 -mt-12 relative z-10">
         <Toolbar
           filters={filters}
           setFilters={setFilters}
           sortBy={sortBy}
           setSortBy={setSortBy}
+          dark={dark}
         />
         <div className="mt-6">
-          <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+          <FilterTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            dark={dark}
+          />
         </div>
         <div className="mt-4">
-          <ProjectsTable
+          <ProjectsGrid
             projects={paginatedProjects}
             onDelete={handleDelete}
             onEditClick={openEditModal}
+            dark={dark}
           />
         </div>
         <Pagination

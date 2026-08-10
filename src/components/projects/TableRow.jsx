@@ -3,65 +3,63 @@ import StatusBadge from "./StatusBadge";
 import ActionsMenu from "./ActionsMenu";
 
 export default function TableRow({ project, index, onDelete, onEditClick }) {
-  return (
-    <div className="group relative bg-gradient-to-r from-[#131a2b] to-[#1B3A6B] rounded-2xl shadow-md hover:shadow-2xl hover:shadow-[#C8955A]/20 hover:scale-[1.015] transition-all duration-300 overflow-hidden">
-      <span className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#C8955A]" />
+  if (!project || typeof project !== "object") return null;
 
-      <div className="p-5 pl-6 flex flex-col lg:flex-row lg:items-center gap-4">
-        <div className="flex items-center gap-3 lg:w-[27%] min-w-0">
-          <ProjectIcon index={index} stack={project.stack} />
+  const stack = Array.isArray(project.stack) ? project.stack : [];
+  const author = project.author || { name: "Unknown", role: "" };
+
+  return (
+    <div className="group relative bg-white rounded-2xl border border-[#0B0F19]/6 hover:border-[#C8955A]/40 shadow-[0_1px_2px_rgba(11,15,25,0.04)] hover:shadow-[0_20px_40px_-15px_rgba(11,15,25,0.25)] hover:-translate-y-0.5 transition-all duration-300">
+      <div className="p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center gap-5">
+        <div className="flex items-center gap-4 lg:w-[30%] min-w-0">
+          <ProjectIcon index={index} stack={stack} />
           <div className="min-w-0">
-            <p className="font-[family-name:var(--font-fraunces)] text-[15px] text-[#FAF7F2] truncate">
+            <p className="font-[family-name:var(--font-fraunces)] text-lg text-[#0B0F19] truncate leading-tight">
               {project.name}
             </p>
-            <p className="text-xs text-[#FAF7F2]/45 truncate">
+            <p className="text-xs text-[#0B0F19]/40 truncate mt-0.5">
               {project.github}
             </p>
-          </div>
-        </div>
-        <div className="lg:w-[24%] bg-white/5 rounded-xl p-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-[#C8955A]/25 text-[#eec9a3]">
-              {project.cohort}
-            </span>
-            {project.stack.map((tech) => (
-              <span
-                key={tech}
-                className="bg-white/10 text-[#FAF7F2]/85 text-xs font-medium px-3 py-1 rounded-lg"
-              >
-                {tech}
+            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+              <span className="text-[10px] font-semibold tracking-wide px-2 py-0.5 rounded-full bg-[#1B3A6B] text-white">
+                {project.cohort}
               </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between lg:w-[27%] gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <img
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(project.author.name)}&background=C8955A&color=0B0F19&bold=true`}
-              alt={project.author.name}
-              className="w-9 h-9 rounded-full object-cover ring-2 ring-white/20 shrink-0"
-            />
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-[#FAF7F2] truncate">
-                {project.author.name}
-              </p>
-              <p className="text-xs text-[#FAF7F2]/45 truncate">
-                {project.author.role}
-              </p>
+              {stack.slice(0, 2).map((tech) => (
+                <span
+                  key={tech}
+                  className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#F5F0E8] text-[#0B0F19]/60"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           </div>
-          <div className="text-right shrink-0 hidden sm:block">
-            <p className="text-xs text-[#FAF7F2]/65">
-              {project.updatedRelative}
+        </div>
+
+        <div className="hidden lg:block w-px self-stretch bg-[#0B0F19]/6" />
+
+        <div className="flex items-center gap-3 lg:w-[26%]">
+          <img
+            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(author.name)}&background=0B0F19&color=C8955A&bold=true`}
+            alt={author.name}
+            className="w-11 h-11 rounded-full object-cover shrink-0"
+          />
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-[#0B0F19] truncate">
+              {author.name}
             </p>
-            <p className="text-[11px] text-[#FAF7F2]/35">
-              {project.updatedDate}
-            </p>
+            <p className="text-xs text-[#0B0F19]/40 truncate">{author.role}</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-between lg:w-[16%] lg:justify-end gap-4">
+        <div className="hidden lg:block w-px self-stretch bg-[#0B0F19]/6" />
+
+        <div className="lg:w-[16%]">
+          <p className="text-sm text-[#0B0F19]/70">{project.updatedRelative}</p>
+          <p className="text-[11px] text-[#0B0F19]/35">{project.updatedDate}</p>
+        </div>
+
+        <div className="flex items-center justify-between lg:w-[16%] lg:justify-end gap-3 lg:ml-auto">
           <StatusBadge status={project.status} />
           <ActionsMenu
             onDelete={() => onDelete(project.id)}

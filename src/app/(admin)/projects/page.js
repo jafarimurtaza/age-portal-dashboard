@@ -24,6 +24,7 @@ export default function ProjectsPage() {
     cohort: "",
   });
   const [activeTab, setActiveTab] = useState("All");
+  const [sortBy, setSortBy] = useState("recent");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -67,12 +68,16 @@ export default function ProjectsPage() {
     return matchesSearch && matchesStatus && matchesCohort && matchesTab;
   });
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredProjects.length / PAGE_SIZE),
-  );
+  const sortedProjects = [...filteredProjects].sort((a, b) => {
+    if (sortBy === "name-asc") return a.name.localeCompare(b.name);
+    if (sortBy === "name-desc") return b.name.localeCompare(a.name);
+    if (sortBy === "oldest") return a.id - b.id;
+    return b.id - a.id;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sortedProjects.length / PAGE_SIZE));
   const safePage = Math.min(currentPage, totalPages);
-  const paginatedProjects = filteredProjects.slice(
+  const paginatedProjects = sortedProjects.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
@@ -81,8 +86,13 @@ export default function ProjectsPage() {
     <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
       <LedgerHeader stats={stats} onAddClick={openAddModal} />
 
-      <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
-        <Toolbar filters={filters} setFilters={setFilters} />
+      <div className="px-4 sm:px-6 lg:px-10 -mt-12 relative z-10">
+        <Toolbar
+          filters={filters}
+          setFilters={setFilters}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+        />
         <div className="mt-6">
           <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
@@ -94,7 +104,7 @@ export default function ProjectsPage() {
           />
         </div>
         <Pagination
-          total={filteredProjects.length}
+          total={sortedProjects.length}
           shown={paginatedProjects.length}
           currentPage={safePage}
           totalPages={totalPages}

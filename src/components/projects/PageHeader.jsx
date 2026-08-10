@@ -9,7 +9,10 @@ export default function PageHeader() {
           Manage all graduate projects, track progress and review submissions.
         </p>
       </div>
-      <button className="bg-[#C8955A] hover:bg-[#b3814c] text-white text-sm font-medium px-5 py-2.5 rounded-xl shadow-sm w-full sm:w-auto">
+      <button
+        onClick={onAddClick}
+        className="bg-[#1B3A6B] hover:bg-[#234a87] text-white transition text-sm font-semibold px-6 py-3 rounded-full shrink-0 shadow-lg shadow-[#1B3A6B]/30 border border-[#C8955A]/30"
+      >
         + Add Project
       </button>
     </div>

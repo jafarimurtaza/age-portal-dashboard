@@ -1,50 +1,89 @@
-export default function LedgerHeader({ stats, onAddClick }) {
-  return (
-    <div className="bg-gradient-to-b from-[#0B0F19] to-[#1B3A6B] pt-8 sm:pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-10">
-      <p className="text-[11px] tracking-[0.25em] text-[#C8955A] uppercase mb-2">
-        Admin · Projects Ledger
-      </p>
-      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="font-[family-name:var(--font-fraunces)] text-3xl sm:text-4xl text-[#FAF7F2]">
-            Projects
-          </h1>
-          <p className="text-sm text-[#FAF7F2]/50 mt-2">
-            Manage all graduate projects, track progress and review submissions.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onAddClick}
-          className="border border-[#C8955A] text-[#C8955A] hover:bg-[#C8955A] hover:text-[#0B0F19] transition text-sm font-medium px-5 py-2.5 rounded-full w-full sm:w-auto"
-        >
-          + Add Project
-        </button>
-      </div>
+import ThemeToggle from "./ThemeToggle";
 
-      <div className="flex flex-wrap sm:flex-nowrap gap-x-6 gap-y-4 overflow-x-auto">
-        {stats.map((stat, i) => (
-          <div key={stat.label} className="flex items-center shrink-0">
-            <div className="pr-6">
-              <p className="text-[10px] tracking-[0.15em] text-[#FAF7F2]/40 uppercase mb-1">
+export default function LedgerHeader({ stats, onAddClick, dark, setDark }) {
+  return (
+    <div
+      className={`relative pt-6 sm:pt-8 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-10 overflow-hidden transition-colors duration-300 ${dark ? "bg-[#0B0F19]" : "bg-white"}`}
+    >
+      <div className="relative">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-[11px] tracking-[0.3em] text-[#C8955A] uppercase">
+            AfghanGeeks · Admin
+          </p>
+          <ThemeToggle dark={dark} setDark={setDark} />
+        </div>
+
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+          <h1
+            className={`font-[family-name:var(--font-fraunces)] text-5xl sm:text-6xl leading-[0.95] ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
+          >
+            Projects<span className="text-[#C8955A]">.</span>
+          </h1>
+          <div className="flex items-center gap-4">
+            <p
+              className={`text-sm max-w-xs hidden sm:block ${dark ? "text-[#FAF7F2]/45" : "text-[#0B0F19]/45"}`}
+            >
+              Manage all graduate projects, track progress and review
+              submissions.
+            </p>
+            <button
+              onClick={onAddClick}
+              className="bg-[#C8955A] hover:bg-[#e0b183] text-[#0B0F19] transition text-sm font-semibold px-6 py-3 rounded-full shrink-0 shadow-lg shadow-[#C8955A]/20"
+            >
+              + Add Project
+            </button>
+          </div>
+        </div>
+
+        <div
+          className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px rounded-2xl overflow-hidden ${dark ? "bg-[#FAF7F2]/8" : "bg-[#0B0F19]/8"}`}
+        >
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className={`p-4 sm:p-5 ${dark ? "bg-[#0B0F19]" : "bg-white"}`}
+            >
+              <p
+                className={`text-[10px] tracking-[0.15em] uppercase mb-2 ${dark ? "text-[#FAF7F2]/35" : "text-[#0B0F19]/35"}`}
+              >
                 {stat.label}
               </p>
-              <p className="font-[family-name:var(--font-fraunces)] text-2xl text-[#FAF7F2]">
-                {stat.value}
-              </p>
-              {stat.change && (
+              <div className="flex items-end justify-between">
                 <p
-                  className={`text-[11px] mt-1 ${stat.trend === "up" ? "text-emerald-400" : "text-red-400"}`}
+                  className={`font-[family-name:var(--font-fraunces)] text-3xl sm:text-4xl ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
                 >
-                  {stat.trend === "up" ? "↑" : "↓"} {stat.change}
+                  {stat.value}
                 </p>
-              )}
+                {stat.change && (
+                  <span
+                    className={`text-[11px] font-medium mb-1 ${stat.trend === "up" ? "text-emerald-500" : "text-red-500"}`}
+                  >
+                    {stat.trend === "up" ? "↑" : "↓"} {stat.change}
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-[3px] mt-3 h-6 items-end">
+                {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-sm"
+                    style={{
+                      height: `${h}%`,
+                      backgroundColor:
+                        i === 6
+                          ? dark
+                            ? "#C8955A"
+                            : "#1B3A6B"
+                          : dark
+                            ? "rgba(250,247,242,0.12)"
+                            : "rgba(11,15,25,0.1)",
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-            {i < stats.length - 1 && (
-              <div className="hidden sm:block h-10 w-px bg-[#C8955A]/25" />
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
