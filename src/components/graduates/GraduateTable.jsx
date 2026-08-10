@@ -1,52 +1,71 @@
-// components/graduates/GraduateTable.js
-import GraduateCard from "./GraduateCard";
-import GraduateRow from "./GraduateRow";
+// components/graduates/GraduateTable.jsx
 
-  export default function GraduateTable({
+"use client";
+
+import EmptyState from "./EmptyState";
+import TableContainer from "./TableContainer";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import GraduateCard from "./GraduateCard";
+
+export default function GraduateTable({
   graduates,
-  onDelete,
-  onEdit,
   onView,
+  onEdit,
+  onDelete,
   onFavorite,
   onComment,
 }) {
+  if (graduates.length === 0) {
+    return <EmptyState />;
+  }
+
   return (
     <>
-  {/* Desktop Table */}
-  <div className="hidden lg:block overflow-x-auto rounded-3xl bg-white shadow-xl">
-    <table className="min-w-full">
-      {/* Your existing table head */}
+      {/* Desktop */}
 
-      <tbody>
+      <div className="hidden lg:block">
+
+        <TableContainer>
+
+          <table className="min-w-full">
+
+            <TableHeader />
+
+            <TableBody
+              graduates={graduates}
+              onView={onView}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              onFavorite={onFavorite}
+              onComment={onComment}
+            />
+
+          </table>
+
+        </TableContainer>
+
+      </div>
+
+      {/* Mobile */}
+
+      <div className="grid gap-5 lg:hidden">
+
         {graduates.map((graduate) => (
-          <GraduateRow
+
+          <GraduateCard
             key={graduate.id}
             graduate={graduate}
-            onDelete={onDelete}
-            onEdit={onEdit}
             onView={onView}
+            onEdit={onEdit}
+            onDelete={onDelete}
             onFavorite={onFavorite}
             onComment={onComment}
           />
-        ))}
-      </tbody>
-    </table>
-  </div>
 
-  {/* Mobile Cards */}
-  <div className="grid gap-5 lg:hidden">
-    {graduates.map((graduate) => (
-      <GraduateCard
-        key={graduate.id}
-        graduate={graduate}
-        onDelete={onDelete}
-        onEdit={onEdit}
-        onView={onView}
-        onFavorite={onFavorite}
-        onComment={onComment}
-      />
-    ))}
-  </div>
-</>
+        ))}
+
+      </div>
+    </>
   );
 }

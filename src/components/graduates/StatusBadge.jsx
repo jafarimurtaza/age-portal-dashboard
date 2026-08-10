@@ -1,38 +1,38 @@
-const statusStyles = {
-  Active: {
-    color: "bg-green-100 text-green-700",
-    icon: "🟢",
-  },
+// components/graduates/StatusBadge.jsx
 
-  Alumni: {
-    color: "bg-blue-100 text-blue-700",
-    icon: "🎓",
-  },
+"use client";
 
-  "Looking for Job": {
-    color: "bg-yellow-100 text-yellow-700",
-    icon: "💼",
-  },
+export default function StatusBadge({
+  status,
+}) {
+  const styles = {
+    Active: {
+      background: "#F5F0E8",
+      color: "#1B3A6B",
+    },
 
-  Inactive: {
-    color: "bg-red-100 text-red-700",
-    icon: "🔴",
-  },
-};
+    Alumni: {
+      background: "#F5F0E8",
+      color: "#C8955A",
+    },
 
-export default function StatusBadge({ status }) {
-  const current =
-    statusStyles[status] || {
-      color: "bg-gray-100 text-gray-700",
-      icon: "⚪",
-    };
+    Inactive: {
+      background: "#F5F0E8",
+      color: "#0B0F19",
+    },
+  };
+
+  const style =
+    styles[status] || styles.Active;
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold ${current.color}`}
+      className="rounded-full px-4 py-2 text-sm font-semibold"
+      style={{
+        background: style.background,
+        color: style.color,
+      }}
     >
-      <span>{current.icon}</span>
-
       {status}
     </span>
   );

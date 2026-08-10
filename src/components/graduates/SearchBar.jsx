@@ -1,3 +1,7 @@
+// components/graduates/SearchBar.jsx
+
+"use client";
+
 import { Search } from "lucide-react";
 
 export default function SearchBar({
@@ -13,28 +17,25 @@ export default function SearchBar({
       />
 
       <input
+        type="text"
         value={searchTerm}
         onChange={(e) =>
           setSearchTerm(e.target.value)
         }
         placeholder="Search graduates..."
         className="
-        w-full
-        rounded-xl
-        border
-        border-gray-300
-        bg-white
-        py-3
-        pl-11
-        pr-4
-        shadow-sm
-        outline-none
-        transition-all
-        duration-300
-        focus:border-[#C8955A]
-        focus:ring-2
-        focus:ring-[#C8955A]
-      "
+          w-full
+          rounded-xl
+          border
+          border-[#F5F0E8]
+          bg-white
+          py-3
+          pl-12
+          pr-4
+          outline-none
+          transition
+          focus:border-[#C8955A]
+        "
       />
 
     </div>
