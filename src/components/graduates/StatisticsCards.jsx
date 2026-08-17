@@ -53,16 +53,7 @@ export default function StatisticsCards({
 
         <div
           key={card.title}
-          className="
-            rounded-3xl
-            bg-white
-            p-7
-            shadow-md
-            transition-all
-            duration-300
-            hover:-translate-y-2
-            hover:shadow-2xl
-          "
+          className="rounded-3xl bg-white p-7 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
         >
 
           <div className="flex justify-center">

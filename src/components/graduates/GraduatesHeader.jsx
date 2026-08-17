@@ -13,7 +13,7 @@ export default function GraduatesHeader({
           Graduates
         </h1>
 
-        <p className="mt-2 text-sm text-[#1B3A6B] md:text-base">
+        <p className="mt-2 mb-4 text-sm text-[#1B3A6B] md:text-base">
           Manage Afghan Geeks graduates professionally.
         </p>
       </div>
@@ -21,7 +21,7 @@ export default function GraduatesHeader({
       <button
         type="button"
         onClick={onAddGraduate}
-        className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#1B3A6B] px-5 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-[#C8955A] hover:shadow-xl active:scale-95 sm:px-6"
+        className="flex mb-4 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-[#1B3A6B] px-5 py-3 font-semibold text-white shadow-md transition-all duration-300 hover:bg-[#C8955A] hover:shadow-xl active:scale-95 sm:px-6"
       >
         <Plus size={20} />
 
