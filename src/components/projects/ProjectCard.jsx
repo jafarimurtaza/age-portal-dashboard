@@ -1,5 +1,6 @@
 import CardIllustration from "./CardIllustration";
 import StatusBadge from "./StatusBadge";
+import ActionsMenu from "./ActionsMenu";
 
 const iconPaths = {
   React: (
@@ -31,117 +32,93 @@ const iconPaths = {
   ),
 };
 
-export default function ProjectCard({
-  project,
-  index,
-  onDelete,
-  onEditClick,
-  dark,
-}) {
+export default function ProjectCard({ project, index, onDelete, onEditClick }) {
   const gold = "#C8955A";
   const illColor = index % 2 === 0 ? gold : "#eec9a3";
   const icon = iconPaths[project.stack?.[0]] || iconPaths.React;
 
   return (
-    <div
-      className={`relative rounded-2xl border transition-all duration-300 overflow-hidden group ${
-        dark
-          ? "bg-[#0B0F19] border-[#1B3A6B]/40 hover:border-[#C8955A]/70 shadow-[0_0_0_1px_rgba(200,149,90,0.1)] hover:shadow-[0_0_25px_-5px_rgba(200,149,90,0.4)]"
-          : "bg-white border-[#0B0F19]/8 hover:border-[#C8955A]/60 shadow-sm hover:shadow-xl"
-      }`}
-    >
-      <div className="relative px-4 pt-6 pb-2 bg-gradient-to-br from-[#1B3A6B] to-[#0B0F19]">
+    <div className="relative rounded-2xl border transition-all duration-300 overflow-hidden group bg-white border-[#0B0F19]/8 hover:border-[#C8955A]/60 shadow-sm hover:shadow-xl">
+      <div className="relative px-4 pt-6 pb-9 bg-gradient-to-br from-[#1B3A6B] to-[#0B0F19]">
         <CardIllustration stack={project.stack} color={illColor} large />
 
-        <div className="absolute left-4 -bottom-6">
-          <svg width="52" height="58" viewBox="0 0 52 58">
-            <polygon
-              points="26,2 48,15 48,43 26,56 4,43 4,15"
-              fill={dark ? "#0B0F19" : "#FFFFFF"}
-              stroke={gold}
-              strokeWidth="1.5"
-            />
-          </svg>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={gold}
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="absolute top-[16px] left-[14px]"
-          >
-            {icon}
-          </svg>
+        <div className="absolute right-3 top-3">
+          <ActionsMenu
+            variant="dark"
+            onDelete={() => onDelete(project.id)}
+            onEdit={() => onEditClick(project)}
+            projectName={project.name}
+          />
         </div>
-
-        <button className="absolute right-3 top-3 w-7 h-7 rounded-full flex items-center justify-center text-xs text-white/40 hover:text-white">
-          ⋮
-        </button>
       </div>
 
-      {/* بدنه کارت */}
-      <div className="pt-9 px-4 pb-4">
-        <p
-          className={`font-[family-name:var(--font-fraunces)] text-[15px] leading-tight truncate ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
+      <div className="absolute left-4 top-[128px] w-14 h-14 flex items-center justify-center">
+        <svg width="56" height="56" viewBox="0 0 56 56" className="absolute">
+          <polygon
+            points="28,2 51,15 51,41 28,54 5,41 5,15"
+            fill="#FFFFFF"
+            stroke={gold}
+            strokeWidth="1.5"
+          />
+        </svg>
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={gold}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="relative"
         >
+          {icon}
+        </svg>
+      </div>
+
+      <div className="pt-9 px-4 pb-4">
+        <p className="font-[family-name:var(--font-fraunces)] text-[15px] leading-tight truncate text-[#0B0F19]">
           {project.name}
         </p>
-        <p
-          className={`text-[11px] truncate mt-0.5 ${dark ? "text-[#FAF7F2]/35" : "text-[#0B0F19]/35"}`}
-        >
+        <p className="text-[11px] truncate mt-0.5 text-[#0B0F19]/35">
           {project.github}
         </p>
 
         <div className="flex flex-wrap gap-1.5 mt-3">
-          <span
-            className={`text-[10px] font-medium px-2 py-1 rounded-lg ${dark ? "bg-[#C8955A]/15 text-[#e0b183]" : "bg-[#C8955A]/15 text-[#8a6539]"}`}
-          >
+          <span className="text-[10px] font-medium px-2 py-1 rounded-lg bg-[#C8955A]/15 text-[#8a6539]">
             {project.cohort}
           </span>
           {project.stack?.map((t) => (
             <span
               key={t}
-              className={`text-[10px] font-medium px-2 py-1 rounded-lg ${dark ? "bg-white/8 text-[#FAF7F2]/70" : "bg-[#F5F0E8] text-[#0B0F19]/60"}`}
+              className="text-[10px] font-medium px-2 py-1 rounded-lg bg-[#F5F0E8] text-[#0B0F19]/60"
             >
               {t}
             </span>
           ))}
         </div>
 
-        <div
-          className={`flex items-center gap-2.5 mt-4 pt-3 border-t ${dark ? "border-white/8" : "border-[#0B0F19]/6"}`}
-        >
+        <div className="flex items-center gap-2.5 mt-4 pt-3 border-t border-[#0B0F19]/6">
           <img
             src={`https://ui-avatars.com/api/?name=${encodeURIComponent(project.author?.name || "?")}&background=1B3A6B&color=C8955A&bold=true`}
             className="w-8 h-8 rounded-full"
             alt=""
           />
           <div className="min-w-0">
-            <p
-              className={`text-xs font-medium truncate ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
-            >
+            <p className="text-xs font-medium truncate text-[#0B0F19]">
               {project.author?.name}
             </p>
-            <p
-              className={`text-[10px] truncate ${dark ? "text-[#FAF7F2]/35" : "text-[#0B0F19]/35"}`}
-            >
+            <p className="text-[10px] truncate text-[#0B0F19]/35">
               {project.author?.role}
             </p>
           </div>
         </div>
         <div className="flex items-center justify-between mt-4">
           <div>
-            <p
-              className={`text-[11px] ${dark ? "text-[#FAF7F2]/40" : "text-[#0B0F19]/40"}`}
-            >
+            <p className="text-[11px] text-[#0B0F19]/40">
               {project.updatedRelative}
             </p>
-            <p
-              className={`text-[10px] ${dark ? "text-[#FAF7F2]/25" : "text-[#0B0F19]/25"}`}
-            >
+            <p className="text-[10px] text-[#0B0F19]/25">
               {project.updatedDate}
             </p>
           </div>

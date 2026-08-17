@@ -1,9 +1,9 @@
 export default function StatusBadge({ status }) {
   const styles = {
-    Published: { dot: "bg-emerald-400", text: "text-emerald-300" },
-    "In Review": { dot: "bg-[#e0b183]", text: "text-[#e0b183]" },
-    Draft: { dot: "bg-amber-400", text: "text-amber-300" },
-    Archived: { dot: "bg-[#FAF7F2]/40", text: "text-[#FAF7F2]/50" },
+    Published: { dot: "bg-emerald-500", text: "text-emerald-600" },
+    "In Review": { dot: "bg-[#C8955A]", text: "text-[#b3814c]" },
+    Draft: { dot: "bg-amber-500", text: "text-amber-600" },
+    Archived: { dot: "bg-[#0B0F19]/30", text: "text-[#0B0F19]/45" },
   };
   const s = styles[status] || styles.Draft;
 

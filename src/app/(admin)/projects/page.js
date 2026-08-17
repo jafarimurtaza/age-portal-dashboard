@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Fraunces } from "next/font/google";
 import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
-import ProjectsTable from "@/components/projects/ProjectsTable";
+import ProjectsGrid from "@/components/projects/ProjectsGrid";
 import Pagination from "@/components/projects/Pagination";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import { projects as initialProjects, stats } from "@/data/projects";
@@ -14,32 +14,72 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600"],
   variable: "--font-fraunces",
 });
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 4;
+
+function fetchProjects() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(initialProjects);
+    }, 700);
+  });
+}
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState(initialProjects);
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
   const [filters, setFilters] = useState({
     search: "",
     status: "",
     cohort: "",
   });
   const [activeTab, setActiveTab] = useState("All");
-  const [sortBy, setSortBy] = useState("recent");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    document.documentElement.style.setProperty("--background", "#ffffff");
+    document.documentElement.style.setProperty("--foreground", "#171717");
+    return () => {
+      document.documentElement.style.removeProperty("--background");
+      document.documentElement.style.removeProperty("--foreground");
+    };
+  }, []);
+
+  const loadProjects = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError(null);
+    try {
+      const data = await fetchProjects();
+      setProjects(data);
+    } catch (err) {
+      setLoadError(err.message || "Failed to load projects.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadProjects();
+  }, [loadProjects]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, activeTab]);
+
   const handleDelete = (id) => {
-    setProjects(projects.filter((p) => p.id !== id));
+    setProjects((prev) => prev.filter((p) => p.id !== id));
   };
 
   const handleAdd = (newProject) => {
-    setProjects([newProject, ...projects]);
+    setProjects((prev) => [newProject, ...prev]);
   };
 
   const handleEdit = (updatedProject) => {
-    setProjects(
-      projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
+    setProjects((prev) =>
+      prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
     );
   };
 
@@ -68,16 +108,12 @@ export default function ProjectsPage() {
     return matchesSearch && matchesStatus && matchesCohort && matchesTab;
   });
 
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
-    if (sortBy === "name-asc") return a.name.localeCompare(b.name);
-    if (sortBy === "name-desc") return b.name.localeCompare(a.name);
-    if (sortBy === "oldest") return a.id - b.id;
-    return b.id - a.id;
-  });
-
-  const totalPages = Math.max(1, Math.ceil(sortedProjects.length / PAGE_SIZE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProjects.length / PAGE_SIZE),
+  );
   const safePage = Math.min(currentPage, totalPages);
-  const paginatedProjects = sortedProjects.slice(
+  const paginatedProjects = filteredProjects.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
@@ -86,30 +122,34 @@ export default function ProjectsPage() {
     <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
       <LedgerHeader stats={stats} onAddClick={openAddModal} />
 
-      <div className="px-4 sm:px-6 lg:px-10 -mt-12 relative z-10">
-        <Toolbar
-          filters={filters}
-          setFilters={setFilters}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
+      <div className="-mt-12 relative z-10">
+        <Toolbar filters={filters} setFilters={setFilters} />
+      </div>
+      <div className="px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="mt-6">
           <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
         <div className="mt-4">
-          <ProjectsTable
+          <ProjectsGrid
             projects={paginatedProjects}
             onDelete={handleDelete}
             onEditClick={openEditModal}
+            loading={isLoading}
+            error={loadError}
+            onRetry={loadProjects}
+            hasAnyProjects={projects.length > 0}
+            onAddClick={openAddModal}
           />
         </div>
-        <Pagination
-          total={sortedProjects.length}
-          shown={paginatedProjects.length}
-          currentPage={safePage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        {!isLoading && !loadError && (
+          <Pagination
+            total={filteredProjects.length}
+            shown={paginatedProjects.length}
+            currentPage={safePage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
         <div className="h-10" />
       </div>
 

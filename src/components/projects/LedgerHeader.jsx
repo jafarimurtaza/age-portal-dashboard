@@ -1,28 +1,19 @@
-import ThemeToggle from "./ThemeToggle";
-
-export default function LedgerHeader({ stats, onAddClick, dark, setDark }) {
+export default function LedgerHeader({ stats, onAddClick }) {
   return (
-    <div
-      className={`relative pt-6 sm:pt-8 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-10 overflow-hidden transition-colors duration-300 ${dark ? "bg-[#0B0F19]" : "bg-white"}`}
-    >
+    <div className="relative pt-6 sm:pt-8 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-10 overflow-hidden bg-white">
       <div className="relative">
         <div className="flex items-center justify-between mb-2">
           <p className="text-[11px] tracking-[0.3em] text-[#C8955A] uppercase">
             AfghanGeeks · Admin
           </p>
-          <ThemeToggle dark={dark} setDark={setDark} />
         </div>
 
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
-          <h1
-            className={`font-[family-name:var(--font-fraunces)] text-5xl sm:text-6xl leading-[0.95] ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
-          >
+          <h1 className="font-[family-name:var(--font-fraunces)] text-5xl sm:text-6xl leading-[0.95] text-[#0B0F19]">
             Projects<span className="text-[#C8955A]">.</span>
           </h1>
           <div className="flex items-center gap-4">
-            <p
-              className={`text-sm max-w-xs hidden sm:block ${dark ? "text-[#FAF7F2]/45" : "text-[#0B0F19]/45"}`}
-            >
+            <p className="text-sm max-w-xs hidden sm:block text-[#0B0F19]/45">
               Manage all graduate projects, track progress and review
               submissions.
             </p>
@@ -35,23 +26,14 @@ export default function LedgerHeader({ stats, onAddClick, dark, setDark }) {
           </div>
         </div>
 
-        <div
-          className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px rounded-2xl overflow-hidden ${dark ? "bg-[#FAF7F2]/8" : "bg-[#0B0F19]/8"}`}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px rounded-2xl overflow-hidden bg-[#0B0F19]/8">
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className={`p-4 sm:p-5 ${dark ? "bg-[#0B0F19]" : "bg-white"}`}
-            >
-              <p
-                className={`text-[10px] tracking-[0.15em] uppercase mb-2 ${dark ? "text-[#FAF7F2]/35" : "text-[#0B0F19]/35"}`}
-              >
+            <div key={stat.label} className="p-4 sm:p-5 bg-white">
+              <p className="text-[10px] tracking-[0.15em] uppercase mb-2 text-[#0B0F19]/35">
                 {stat.label}
               </p>
               <div className="flex items-end justify-between">
-                <p
-                  className={`font-[family-name:var(--font-fraunces)] text-3xl sm:text-4xl ${dark ? "text-[#FAF7F2]" : "text-[#0B0F19]"}`}
-                >
+                <p className="font-[family-name:var(--font-fraunces)] text-3xl sm:text-4xl text-[#0B0F19]">
                   {stat.value}
                 </p>
                 {stat.change && (
@@ -70,13 +52,7 @@ export default function LedgerHeader({ stats, onAddClick, dark, setDark }) {
                     style={{
                       height: `${h}%`,
                       backgroundColor:
-                        i === 6
-                          ? dark
-                            ? "#C8955A"
-                            : "#1B3A6B"
-                          : dark
-                            ? "rgba(250,247,242,0.12)"
-                            : "rgba(11,15,25,0.1)",
+                        i === 6 ? "#1B3A6B" : "rgba(11,15,25,0.1)",
                     }}
                   />
                 ))}

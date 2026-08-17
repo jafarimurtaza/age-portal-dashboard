@@ -129,7 +129,6 @@ export default function AddProjectModal({
               className="w-full bg-[#FAF7F2] rounded-xl px-4 py-2.5 text-sm text-[#0B0F19] outline-none focus:ring-2 focus:ring-[#C8955A]/40"
             />
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
@@ -162,7 +161,7 @@ export default function AddProjectModal({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
                 Author name
