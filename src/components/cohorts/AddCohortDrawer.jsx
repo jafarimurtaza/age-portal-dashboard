@@ -15,11 +15,7 @@ const initialForm = {
   iconType: "web",
 };
 
-export default function AddCohortDrawer({
-  open,
-  onClose,
-  onSubmit,
-}) {
+export default function AddCohortDrawer({ open, onClose, onSubmit }) {
   const [form, setForm] = useState(initialForm);
 
   if (!open) return null;
@@ -52,8 +48,7 @@ export default function AddCohortDrawer({
       graduates: Number(form.graduates) || 0,
       projects: Number(form.projects) || 0,
       categoryColor:
-        categoryColors[form.category] ||
-        "bg-[#EEE8FF] text-[#5B2BEE]",
+        categoryColors[form.category] || "bg-[#EEE8FF] text-[#5B2BEE]",
     });
 
     setForm(initialForm);
@@ -66,19 +61,7 @@ export default function AddCohortDrawer({
         className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
       />
 
-      <aside
-        className="
-          absolute
-          right-0
-          top-0
-          h-full
-          w-full
-          max-w-[480px]
-          overflow-y-auto
-          bg-white
-          shadow-2xl
-        "
-      >
+      <aside className="absolute right-0 top-0 h-full w-full max-w-[480px] overflow-y-auto bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-[#E7E8F0] px-6 py-5">
           <div>
             <h2 className="text-[20px] font-bold text-[#11142D]">
@@ -98,10 +81,7 @@ export default function AddCohortDrawer({
           </button>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5 p-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-5 p-6">
           <div>
             <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
               Cohort Name *

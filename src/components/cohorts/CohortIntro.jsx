@@ -33,19 +33,7 @@ export default function CohortHeader({ onAddCohort }) {
 
       <button
         onClick={onAddCohort}
-        className="
-          flex items-center gap-2
-          rounded-[9px]
-          bg-[#4B21E8]
-          px-[20px]
-          py-[12px]
-          text-[14px]
-          font-semibold
-          text-white
-          transition
-          hover:bg-[#3F1BC7]
-          active:scale-[0.98]
-        "
+        className="flex items-center gap-2 rounded-[9px] bg-[#4B21E8] px-[20px] py-[12px] text-[14px] font-semibold text-white transition hover:bg-[#3F1BC7] active:scale-[0.98]"
       >
         <PlusIcon />
         Add Cohort

@@ -160,6 +160,7 @@ export default function CohortsPage() {
   return (
     <main className="min-h-full bg-[#FAFAFC] px-8 py-7">
       <div className="mx-auto max-w-[1230px] space-y-5">
+        
         <CohortHeader
           onAddCohort={() => setIsAddDrawerOpen(true)}
         />
