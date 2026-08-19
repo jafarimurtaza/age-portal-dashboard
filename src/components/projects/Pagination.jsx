@@ -10,11 +10,11 @@ export default function Pagination({
       <p>
         Showing {shown} of {total} projects
       </p>
-      <div className="flex items-center gap-1 font-[family-name:var(--font-fraunces)]">
+      <div className="flex items-center gap-1.5 font-[family-name:var(--font-fraunces)]">
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
-          className="w-8 h-8 rounded-full hover:bg-white transition disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-9 h-9 rounded-full hover:bg-white transition disabled:opacity-40 disabled:cursor-not-allowed text-2xl font-bold text-[#0B0F19] flex items-center justify-center"
         >
           ‹
         </button>
@@ -23,10 +23,10 @@ export default function Pagination({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`w-8 h-8 rounded-full transition ${
+            className={`w-9 h-9 rounded-full text-sm font-semibold transition ${
               currentPage === page
                 ? "bg-[#0B0F19] text-[#C8955A]"
-                : "hover:bg-white"
+                : "hover:bg-white text-[#0B0F19]"
             }`}
           >
             {page}
@@ -36,7 +36,7 @@ export default function Pagination({
         <button
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage === totalPages}
-          className="w-8 h-8 rounded-full hover:bg-white transition disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-9 h-9 rounded-full hover:bg-white transition disabled:opacity-40 disabled:cursor-not-allowed text-2xl font-bold text-[#0B0F19] flex items-center justify-center"
         >
           ›
         </button>

@@ -17,7 +17,7 @@ const fraunces = Fraunces({
 const PAGE_SIZE = 4;
 
 function fetchProjects() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(initialProjects);
     }, 700);
@@ -117,18 +117,19 @@ export default function ProjectsPage() {
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
-
   return (
     <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
       <LedgerHeader stats={stats} onAddClick={openAddModal} />
 
-      <div className="-mt-12 relative z-10">
+      <div className="mt-4 sm:-mt-12 relative z-30">
         <Toolbar filters={filters} setFilters={setFilters} />
       </div>
+
       <div className="px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="mt-6">
           <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
+
         <div className="mt-4">
           <ProjectsGrid
             projects={paginatedProjects}
@@ -141,6 +142,7 @@ export default function ProjectsPage() {
             onAddClick={openAddModal}
           />
         </div>
+
         {!isLoading && !loadError && (
           <Pagination
             total={filteredProjects.length}
@@ -150,6 +152,7 @@ export default function ProjectsPage() {
             onPageChange={setCurrentPage}
           />
         )}
+
         <div className="h-10" />
       </div>
 

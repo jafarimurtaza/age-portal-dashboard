@@ -38,9 +38,33 @@ export default function ProjectCard({ project, index, onDelete, onEditClick }) {
   const icon = iconPaths[project.stack?.[0]] || iconPaths.React;
 
   return (
-    <div className="relative rounded-2xl border transition-all duration-300 overflow-hidden group bg-white border-[#0B0F19]/8 hover:border-[#C8955A]/60 shadow-sm hover:shadow-xl">
-      <div className="relative px-4 pt-6 pb-9 bg-gradient-to-br from-[#1B3A6B] to-[#0B0F19]">
+    <div className="relative rounded-none border transition-all duration-300 overflow-hidden group bg-white border-[#0B0F19]/8 hover:border-[#C8955A]/60">
+      <div className="relative px-4 pt-6 pb-2 bg-gradient-to-br from-[#1B3A6B] to-[#0B0F19]">
         <CardIllustration stack={project.stack} color={illColor} large />
+
+        <div className="absolute left-4 -bottom-6">
+          <svg width="52" height="58" viewBox="0 0 52 58">
+            <polygon
+              points="26,2 48,15 48,43 26,56 4,43 4,15"
+              fill="#FFFFFF"
+              stroke={gold}
+              strokeWidth="1.5"
+            />
+          </svg>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={gold}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="absolute top-[16px] left-[14px]"
+          >
+            {icon}
+          </svg>
+        </div>
 
         <div className="absolute right-3 top-3">
           <ActionsMenu
@@ -50,30 +74,6 @@ export default function ProjectCard({ project, index, onDelete, onEditClick }) {
             projectName={project.name}
           />
         </div>
-      </div>
-
-      <div className="absolute left-4 top-[128px] w-14 h-14 flex items-center justify-center">
-        <svg width="56" height="56" viewBox="0 0 56 56" className="absolute">
-          <polygon
-            points="28,2 51,15 51,41 28,54 5,41 5,15"
-            fill="#FFFFFF"
-            stroke={gold}
-            strokeWidth="1.5"
-          />
-        </svg>
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke={gold}
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="relative"
-        >
-          {icon}
-        </svg>
       </div>
 
       <div className="pt-9 px-4 pb-4">
