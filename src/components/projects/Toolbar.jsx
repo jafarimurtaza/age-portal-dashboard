@@ -3,7 +3,7 @@ import FilterDropdown from "./FilterDropdown";
 
 export default function Toolbar({ filters, setFilters }) {
   return (
-    <div className="rounded-none shadow-lg p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 bg-white">
+    <div className="rounded-none p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 bg-white">
       <div className="flex-1">
         <SearchBar
           value={filters.search}
