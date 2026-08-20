@@ -10,7 +10,7 @@ export default function Pagination({
       <p>
         Showing {shown} of {total} projects
       </p>
-      <div className="flex items-center gap-1.5 font-[family-name:var(--font-fraunces)]">
+      <div className="flex items-center gap-1.5 flex-wrap justify-center font-[family-name:var(--font-fraunces)]">
         <button
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}

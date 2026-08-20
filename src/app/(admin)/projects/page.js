@@ -117,9 +117,40 @@ export default function ProjectsPage() {
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
   );
+
+  const computedStats = isLoading
+    ? stats
+    : stats.map((stat) => {
+        if (stat.label === "Total Projects") {
+          return { ...stat, value: projects.length, change: null };
+        }
+        if (stat.label === "Published") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "Published").length,
+            change: null,
+          };
+        }
+        if (stat.label === "In Review") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "In Review").length,
+            change: null,
+          };
+        }
+        if (stat.label === "Archived") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "Archived").length,
+            change: null,
+          };
+        }
+        return stat;
+      });
+
   return (
     <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
-      <LedgerHeader stats={stats} onAddClick={openAddModal} />
+      <LedgerHeader stats={computedStats} onAddClick={openAddModal} />
 
       <div className="mt-4 sm:-mt-12 relative z-30">
         <Toolbar filters={filters} setFilters={setFilters} />

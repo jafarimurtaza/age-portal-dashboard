@@ -153,15 +153,16 @@ export default function AddProjectModal({
     const newErrors = {};
 
     if (!form.name.trim()) {
-      newErrors.name = "نام پروژه الزامی است.";
+      newErrors.name = "Project name is required.";
     }
 
     if (!form.authorName.trim()) {
-      newErrors.authorName = "نام نویسنده الزامی است.";
+      newErrors.authorName = "Author name is required.";
     }
 
     if (!isLikelyGithubLink(form.github)) {
-      newErrors.github = "لینک باید به شکل github.com/username/repo باشد.";
+      newErrors.github =
+        "The link must be in the format github.com/username/repo.";
     }
 
     setErrors(newErrors);
