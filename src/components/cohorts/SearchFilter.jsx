@@ -11,6 +11,8 @@ function SearchIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-4-4" />
@@ -27,6 +29,8 @@ function ResetIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <path d="M3 12a9 9 0 1 0 3-6.7" />
       <path d="M3 4v6h6" />
@@ -50,19 +54,22 @@ export default function SearchFilter({
     <div
       className="
         rounded-[12px]
-        border border-[#E7E8F0]
+        border
+        border-[#E6E0D7]
         bg-white
-        px-5 py-5
-        shadow-[0_2px_8px_rgba(17,20,45,0.025)]
+        px-5
+        py-5
+        shadow-[0_2px_8px_rgba(11,15,25,0.035)]
       "
     >
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr_1fr_1fr_auto]">
+      <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-[1.55fr_1fr_1fr_1fr_auto]">
         <div className="relative">
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#68708A]">
+          <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#68708A]">
             <SearchIcon />
           </div>
 
           <input
+            type="text"
             value={filters.search}
             onChange={(e) =>
               updateFilter("search", e.target.value)
@@ -72,18 +79,19 @@ export default function SearchFilter({
               h-[43px]
               w-full
               rounded-[8px]
-              border border-[#E1E3EC]
+              border
+              border-[#DED8CE]
               bg-white
               pl-10
               pr-4
               text-[14px]
-              text-[#11142D]
+              text-[#0B0F19]
               outline-none
               transition
               placeholder:text-[#8A90A3]
-              focus:border-[#5B2BEE]
+              focus:border-[#1B3A6B]
               focus:ring-2
-              focus:ring-[#5B2BEE]/10
+              focus:ring-[#1B3A6B]/10
             "
           />
         </div>
@@ -96,20 +104,23 @@ export default function SearchFilter({
           className="
             h-[43px]
             rounded-[8px]
-            border border-[#E1E3EC]
+            border
+            border-[#DED8CE]
             bg-white
             px-4
             text-[14px]
-            text-[#11142D]
+            text-[#0B0F19]
             outline-none
-            focus:border-[#5B2BEE]
+            transition
+            focus:border-[#1B3A6B]
+            focus:ring-2
+            focus:ring-[#1B3A6B]/10
           "
         >
           <option>All Status</option>
           <option>Active</option>
           <option>Completed</option>
-          <option>Pending</option>
-          <option>Archived</option>
+          <option>Upcoming</option>
         </select>
 
         <select
@@ -120,13 +131,17 @@ export default function SearchFilter({
           className="
             h-[43px]
             rounded-[8px]
-            border border-[#E1E3EC]
+            border
+            border-[#DED8CE]
             bg-white
             px-4
             text-[14px]
-            text-[#11142D]
+            text-[#0B0F19]
             outline-none
-            focus:border-[#5B2BEE]
+            transition
+            focus:border-[#1B3A6B]
+            focus:ring-2
+            focus:ring-[#1B3A6B]/10
           "
         >
           <option>All Categories</option>
@@ -143,13 +158,17 @@ export default function SearchFilter({
           className="
             h-[43px]
             rounded-[8px]
-            border border-[#E1E3EC]
+            border
+            border-[#DED8CE]
             bg-white
             px-4
             text-[14px]
-            text-[#11142D]
+            text-[#0B0F19]
             outline-none
-            focus:border-[#5B2BEE]
+            transition
+            focus:border-[#1B3A6B]
+            focus:ring-2
+            focus:ring-[#1B3A6B]/10
           "
         >
           <option>Newest</option>
@@ -158,6 +177,7 @@ export default function SearchFilter({
         </select>
 
         <button
+          type="button"
           onClick={onReset}
           className="
             flex
@@ -166,14 +186,17 @@ export default function SearchFilter({
             justify-center
             gap-2
             rounded-[8px]
-            border border-[#E1E3EC]
+            border
+            border-[#DED8CE]
+            bg-white
             px-5
             text-[14px]
             font-semibold
-            text-[#11142D]
-            transition
-            hover:border-[#5B2BEE]
-            hover:text-[#5B2BEE]
+            text-[#0B0F19]
+            transition-all
+            hover:border-[#C8955A]
+            hover:bg-[#F5F0E8]
+            hover:text-[#1B3A6B]
           "
         >
           <ResetIcon />

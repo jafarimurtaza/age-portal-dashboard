@@ -3,10 +3,6 @@
 import React from "react";
 import StatusBadge from "./StatusBadge";
 
-/* =========================
-   ACTION ICONS
-========================= */
-
 function EyeIcon() {
   return (
     <svg
@@ -56,10 +52,6 @@ function DeleteIcon() {
     </svg>
   );
 }
-
-/* =========================
-   COHORT ICONS
-========================= */
 
 function MonitorIcon() {
   return (
@@ -123,11 +115,8 @@ function PaletteIcon() {
       strokeWidth="1.8"
     >
       <path d="M12 3a9 9 0 0 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4h2a7 7 0 0 0 0-10Z" />
-
       <circle cx="7.5" cy="10" r="1" />
-
       <circle cx="9" cy="6.5" r="1" />
-
       <circle cx="14" cy="6" r="1" />
     </svg>
   );
@@ -148,27 +137,15 @@ function CloudIcon() {
   );
 }
 
-/* =========================
-   ICON COLORS
-========================= */
-
 const iconStyles = {
-  purple: "bg-[#EEE8FF] text-[#5B2BEE]",
-
-  green: "bg-[#E4F8EA] text-[#16A34A]",
-
-  orange: "bg-[#FFF1D7] text-[#F59E0B]",
-
-  pink: "bg-[#FFE8EE] text-[#E5486D]",
-
-  blue: "bg-[#E5F0FF] text-[#2563EB]",
+  purple: "bg-[#EAF1FB] text-[#1B3A6B]",
+  green: "bg-[#E8F1E8] text-[#3F704F]",
+  orange: "bg-[#FFF1D7] text-[#C8955A]",
+  pink: "bg-[#FCE8E3] text-[#B85C4A]",
+  blue: "bg-[#EAF1FB] text-[#1B3A6B]",
 };
 
-/* =========================
-   COHORT ICON COMPONENT
-========================= */
-
-function CohortIcon({ color, type }) {
+function CohortIcon({ color = "purple", type = "web" }) {
   const Icon =
     type === "mobile"
       ? MobileIcon
@@ -182,31 +159,31 @@ function CohortIcon({ color, type }) {
 
   return (
     <div
-      className={`flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-[10px] ${iconStyles[color]}`}
+      className={`flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-[10px] ${
+        iconStyles[color] || iconStyles.purple
+      }`}
     >
       <Icon />
     </div>
   );
 }
 
-/* =========================
-   COHORT ROW
-========================= */
-
-export default function CohortRow({ cohort }) {
+export default function CohortRow({
+  cohort,
+  onEdit,
+  onDelete,
+}) {
   return (
-    <div className="grid min-w-[1050px] grid-cols-[2.2fr_1.25fr_0.8fr_0.8fr_1fr_1fr_1.2fr] items-center border-t border-[#EEF0F5] px-5 py-4 transition hover:bg-[#FBFBFE]">
+    <div className="grid min-w-[1050px] grid-cols-[2.2fr_1.25fr_0.8fr_0.8fr_1fr_1fr_1.2fr] items-center border-t border-[#EEE8DF] px-5 py-4 transition hover:bg-[#FCFAF7]">
 
-      {/* Cohort */}
       <div className="flex items-center gap-4">
-
         <CohortIcon
           color={cohort.iconColor}
           type={cohort.iconType}
         />
 
         <div>
-          <p className="text-[14px] font-semibold text-[#11142D]">
+          <p className="text-[14px] font-semibold text-[#0B0F19]">
             {cohort.name}
           </p>
 
@@ -214,65 +191,66 @@ export default function CohortRow({ cohort }) {
             {cohort.code}
           </p>
         </div>
-
       </div>
 
-      {/* Date Range */}
       <div className="text-[13px] leading-6 text-[#68708A]">
         {cohort.start}
-
         <br />
-
         – {cohort.end}
       </div>
 
-      {/* Graduates */}
-      <div className="text-[14px] text-[#11142D]">
+      <div className="text-[14px] text-[#0B0F19]">
         {cohort.graduates}
       </div>
 
-      {/* Projects */}
-      <div className="text-[14px] text-[#11142D]">
+      <div className="text-[14px] text-[#0B0F19]">
         {cohort.projects}
       </div>
 
-      {/* Category */}
       <div>
         <span
-          className={`rounded-full px-3 py-1 text-[12px] font-semibold ${cohort.categoryColor}`}
+          className={`rounded-full px-3 py-1 text-[12px] font-semibold ${
+            cohort.categoryColor ||
+            "bg-[#EAF1FB] text-[#1B3A6B]"
+          }`}
         >
           {cohort.category}
         </span>
       </div>
 
-      {/* Status */}
       <div>
         <StatusBadge status={cohort.status} />
       </div>
 
-      {/* Actions */}
       <div className="flex items-center gap-2">
 
         <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E5E7EF] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
+          type="button"
+          aria-label="View cohort"
+          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#DED8CE] text-[#0B0F19] transition hover:border-[#1B3A6B] hover:text-[#1B3A6B]"
         >
           <EyeIcon />
         </button>
 
         <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E5E7EF] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
+          type="button"
+          aria-label="Edit cohort"
+          onClick={() => onEdit?.(cohort)}
+          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#DED8CE] text-[#0B0F19] transition hover:border-[#1B3A6B] hover:text-[#1B3A6B]"
         >
           <EditIcon />
         </button>
 
         <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#F1D9DE] text-[#E5486D] transition hover:bg-[#FFF1F3]"
+          type="button"
+          aria-label="Delete cohort"
+          onClick={() => onDelete?.(cohort)}
+          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E9D1CB] text-[#B85C4A] transition hover:bg-[#FCE8E3]"
         >
           <DeleteIcon />
         </button>
 
       </div>
-
     </div>
   );
 }
