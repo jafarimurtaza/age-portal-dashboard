@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
-import CohortHeader from "@/components/cohorts/CohortIntro";
+import CohortIntro from "@/components/cohorts/CohortIntro";
 import StatsCards from "@/components/cohorts/StatsCards";
 import SearchFilter from "@/components/cohorts/SearchFilter";
 import CohortTable from "@/components/cohorts/CohortTable";
@@ -20,9 +20,7 @@ const initialCohorts = [
     graduates: 45,
     projects: 8,
     category: "Technology",
-    categoryColor: "bg-[#EEE8FF] text-[#5B2BEE]",
     status: "Active",
-    iconColor: "purple",
     iconType: "web",
   },
   {
@@ -34,9 +32,7 @@ const initialCohorts = [
     graduates: 38,
     projects: 6,
     category: "Technology",
-    categoryColor: "bg-[#EEE8FF] text-[#5B2BEE]",
     status: "Active",
-    iconColor: "green",
     iconType: "mobile",
   },
   {
@@ -48,9 +44,7 @@ const initialCohorts = [
     graduates: 42,
     projects: 7,
     category: "Data Science",
-    categoryColor: "bg-[#FFF1D7] text-[#F59E0B]",
     status: "Completed",
-    iconColor: "orange",
     iconType: "data",
   },
   {
@@ -62,9 +56,7 @@ const initialCohorts = [
     graduates: 35,
     projects: 5,
     category: "Design",
-    categoryColor: "bg-[#FFE8EE] text-[#E5486D]",
     status: "Completed",
-    iconColor: "pink",
     iconType: "design",
   },
   {
@@ -76,17 +68,104 @@ const initialCohorts = [
     graduates: 30,
     projects: 4,
     category: "Technology",
-    categoryColor: "bg-[#EEE8FF] text-[#5B2BEE]",
     status: "Active",
-    iconColor: "blue",
     iconType: "cloud",
   },
+  {
+    id: 6,
+    name: "Database Management",
+    code: "DBM-2024-03",
+    start: "Apr 15, 2024",
+    end: "Sep 15, 2024",
+    graduates: 28,
+    projects: 3,
+    category: "Data Science",
+    status: "Upcoming",
+    iconType: "database",
+  },
+  {
+    id: 7,
+    name: "Digital Marketing",
+    code: "DM-2024-01",
+    start: "May 1, 2024",
+    end: "Oct 1, 2024",
+    graduates: 32,
+    projects: 5,
+    category: "Design",
+    status: "Upcoming",
+    iconType: "design",
+  },
+  {
+    id: 8,
+    name: "React Advanced",
+    code: "RA-2024-01",
+    start: "Jun 1, 2024",
+    end: "Nov 1, 2024",
+    graduates: 41,
+    projects: 7,
+    category: "Technology",
+    status: "Active",
+    iconType: "web",
+  },
+  {
+    id: 9,
+    name: "Python for Data",
+    code: "PFD-2024-01",
+    start: "Jul 1, 2024",
+    end: "Dec 1, 2024",
+    graduates: 36,
+    projects: 6,
+    category: "Data Science",
+    status: "Active",
+    iconType: "data",
+  },
+  {
+    id: 10,
+    name: "Graphic Design",
+    code: "GD-2024-01",
+    start: "Aug 1, 2024",
+    end: "Jan 1, 2025",
+    graduates: 27,
+    projects: 4,
+    category: "Design",
+    status: "Completed",
+    iconType: "design",
+  },
+  {
+    id: 11,
+    name: "Node.js Backend",
+    code: "NB-2024-01",
+    start: "Sep 1, 2024",
+    end: "Feb 1, 2025",
+    graduates: 34,
+    projects: 6,
+    category: "Technology",
+    status: "Upcoming",
+    iconType: "web",
+  },
+  {
+    id: 12,
+    name: "AI Fundamentals",
+    code: "AI-2024-01",
+    start: "Oct 1, 2024",
+    end: "Mar 1, 2025",
+    graduates: 40,
+    projects: 8,
+    category: "Data Science",
+    status: "Upcoming",
+    iconType: "data",
+  },
 ];
+
+const ITEMS_PER_PAGE = 6;
 
 export default function CohortsPage() {
   const [cohorts, setCohorts] = useState(initialCohorts);
 
   const [isAddDrawerOpen, setIsAddDrawerOpen] = useState(false);
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+
+  const [selectedCohort, setSelectedCohort] = useState(null);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -95,12 +174,14 @@ export default function CohortsPage() {
     sort: "Newest",
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const filteredCohorts = useMemo(() => {
     let result = [...cohorts];
 
-    if (filters.search.trim()) {
-      const search = filters.search.toLowerCase();
+    const search = filters.search.trim().toLowerCase();
 
+    if (search) {
       result = result.filter(
         (cohort) =>
           cohort.name.toLowerCase().includes(search) ||
@@ -123,29 +204,33 @@ export default function CohortsPage() {
 
     if (filters.sort === "Most Graduates") {
       result.sort((a, b) => b.graduates - a.graduates);
-    }
-
-    if (filters.sort === "Oldest") {
-      result.reverse();
+    } else if (filters.sort === "Oldest") {
+      result.sort((a, b) => a.id - b.id);
+    } else {
+      result.sort((a, b) => b.id - a.id);
     }
 
     return result;
   }, [cohorts, filters]);
 
-  function handleAddCohort(newCohort) {
-    setCohorts((currentCohorts) => [
-      {
-        ...newCohort,
-        id: Date.now(),
-      },
-      ...currentCohorts,
-    ]);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredCohorts.length / ITEMS_PER_PAGE)
+  );
 
-    setIsAddDrawerOpen(false);
-  }
+  const safeCurrentPage = Math.min(
+    currentPage,
+    totalPages
+  );
+
+  const paginatedCohorts = filteredCohorts.slice(
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
+    safeCurrentPage * ITEMS_PER_PAGE
+  );
 
   function handleFilterChange(updatedFilters) {
     setFilters(updatedFilters);
+    setCurrentPage(1);
   }
 
   function handleResetFilters() {
@@ -155,35 +240,91 @@ export default function CohortsPage() {
       category: "All Categories",
       sort: "Newest",
     });
+
+    setCurrentPage(1);
+  }
+
+  function handleAddCohort(newCohort) {
+    const cohort = {
+      ...newCohort,
+      id: Date.now(),
+    };
+
+    setCohorts((current) => [cohort, ...current]);
+    setIsAddDrawerOpen(false);
+    setCurrentPage(1);
+  }
+
+  function handleEditClick(cohort) {
+    setSelectedCohort(cohort);
+    setIsEditDrawerOpen(true);
+  }
+
+  function handleEditCohort(updatedCohort) {
+    setCohorts((current) =>
+      current.map((cohort) =>
+        cohort.id === updatedCohort.id
+          ? updatedCohort
+          : cohort
+      )
+    );
+
+    setIsEditDrawerOpen(false);
+    setSelectedCohort(null);
   }
 
   return (
-    <main className="min-h-full bg-[#FAFAFC] px-8 py-7">
-      <div className="mx-auto max-w-[1230px] space-y-5">
-        
-        <CohortHeader
+    <main className="min-h-screen bg-[#FAF7F2] px-5 py-6 sm:px-7 lg:px-8 lg:py-7">
+      <div className="mx-auto max-w-[1280px]">
+
+        <CohortIntro
           onAddCohort={() => setIsAddDrawerOpen(true)}
         />
 
-        <StatsCards cohorts={cohorts} />
+        <div className="mt-6">
+          <StatsCards cohorts={cohorts} />
+        </div>
 
-        <SearchFilter
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onReset={handleResetFilters}
-        />
+        <div className="mt-6">
+          <SearchFilter
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onReset={handleResetFilters}
+          />
+        </div>
 
-        <CohortTable cohorts={filteredCohorts} />
+        <div className="mt-5">
+          <CohortTable
+            cohorts={paginatedCohorts}
+            onEdit={handleEditClick}
+          />
+        </div>
 
-        <Pagination
-          totalItems={filteredCohorts.length}
-        />
+        <div className="mt-4">
+          <Pagination
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            totalItems={filteredCohorts.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       </div>
 
       <AddCohortDrawer
         open={isAddDrawerOpen}
         onClose={() => setIsAddDrawerOpen(false)}
         onSubmit={handleAddCohort}
+      />
+
+      <EditCohortDrawer
+        open={isEditDrawerOpen}
+        cohort={selectedCohort}
+        onClose={() => {
+          setIsEditDrawerOpen(false);
+          setSelectedCohort(null);
+        }}
+        onSubmit={handleEditCohort}
       />
     </main>
   );
