@@ -39,13 +39,10 @@ export default function PageContent({
       />
 
       <GraduateTable
-        graduates={graduates}
-        onView={onView}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        onFavorite={onFavorite}
-        onComment={onComment}
-      />
+       graduates={graduates}
+       onEdit={onEdit}
+       onDelete={onDelete}
+/>
 
     </>
   );

@@ -1,71 +1,62 @@
-// components/graduates/GraduateTable.jsx
-
 "use client";
 
-import EmptyState from "./EmptyState";
-import TableContainer from "./TableContainer";
+import { useEffect, useState } from "react";
+
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import GraduateCard from "./GraduateCard";
 
 export default function GraduateTable({
-  graduates,
-  onView,
+  graduates = [],
   onEdit,
   onDelete,
-  onFavorite,
-  onComment,
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-[200px] w-full bg-white" />
+    );
+  }
+
   if (graduates.length === 0) {
-    return <EmptyState />;
+    return (
+      <div className="w-full bg-white px-6 py-12 text-center text-[#1B3A6B]">
+        No graduates found.
+      </div>
+    );
   }
 
   return (
-    <>
-      {/* Desktop */}
+    <div className="w-full">
+      {/* Desktop Table */}
+      <div className="hidden overflow-x-auto bg-white lg:block">
+        <table className="w-full min-w-[1000px] border-collapse">
+          <TableHeader />
 
-      <div className="hidden lg:block">
-
-        <TableContainer>
-
-          <table className="min-w-full">
-
-            <TableHeader />
-
-            <TableBody
-              graduates={graduates}
-              onView={onView}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onFavorite={onFavorite}
-              onComment={onComment}
-            />
-
-          </table>
-
-        </TableContainer>
-
+          <TableBody
+            graduates={graduates}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        </table>
       </div>
 
-      {/* Mobile */}
-
-      <div className="grid gap-5 lg:hidden">
-
+      {/* Mobile and Tablet Cards */}
+      <div className="grid grid-cols-1 gap-4 lg:hidden">
         {graduates.map((graduate) => (
-
           <GraduateCard
             key={graduate.id}
             graduate={graduate}
-            onView={onView}
             onEdit={onEdit}
             onDelete={onDelete}
-            onFavorite={onFavorite}
-            onComment={onComment}
           />
-
         ))}
-
       </div>
-    </>
+    </div>
   );
 }

@@ -1,89 +1,64 @@
-// components/graduates/StatisticsCards.jsx
-
-"use client";
-
-import ProgressCircle from "./ProgressCircle";
+import ProgressCard from "./ProgressCard";
 
 export default function StatisticsCards({
-  total,
-  active,
-  alumni,
-  averageProgress,
+  total = 0,
+  active = 0,
+  alumni = 0,
+  averageProgress = 0,
 }) {
-  const cards = [
-    {
-      title: "Graduates",
-      number: total,
-      progress: 100,
-    },
+  const safeTotal = Number(total) || 0;
+  const safeActive = Number(active) || 0;
+  const safeAlumni = Number(alumni) || 0;
+  const safeAverageProgress = Math.min(
+    Math.max(Number(averageProgress) || 0, 0),
+    100
+  );
 
-    {
-      title: "Active",
-      number: active,
-      progress:
-        total === 0
-          ? 0
-          : Math.round(
-              (active / total) * 100
-            ),
-    },
+  const attendedProgress =
+    safeTotal > 0
+      ? Math.round((safeActive / safeTotal) * 100)
+      : 0;
 
-    {
-      title: "Alumni",
-      number: alumni,
-      progress:
-        total === 0
-          ? 0
-          : Math.round(
-              (alumni / total) * 100
-            ),
-    },
-
-    {
-      title: "Average Progress",
-      number: `${averageProgress}%`,
-      progress: averageProgress,
-    },
-  ];
+  const absentProgress =
+    safeTotal > 0
+      ? Math.round((safeAlumni / safeTotal) * 100)
+      : 0;
 
   return (
-    <div className="mb-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+    <section className="mt-10 w-full">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <ProgressCard
+          type="attended"
+          title="Class Attended"
+          value={safeActive}
+          total={safeTotal}
+          progress={attendedProgress}
+        />
 
-      {cards.map((card) => (
+        <ProgressCard
+          type="completed"
+          title="Course Completed"
+          value={safeAverageProgress}
+          total={100}
+          progress={safeAverageProgress}
+        />
 
-        <div
-          key={card.title}
-          className="rounded-3xl bg-white p-7 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
-        >
+        <ProgressCard
+          type="absent"
+          title="Absent"
+          value={safeAlumni}
+          total={safeTotal}
+          progress={absentProgress}
+        />
 
-          <div className="flex justify-center">
-
-            <ProgressCircle
-              value={card.progress}
-            />
-
-          </div>
-
-          <div className="mt-5 text-center">
-
-            <h3 className="text-lg font-semibold text-[#0B0F19]">
-
-              {card.title}
-
-            </h3>
-
-            <p className="mt-2 text-4xl font-bold text-[#1B3A6B]">
-
-              {card.number}
-
-            </p>
-
-          </div>
-
-        </div>
-
-      ))}
-
-    </div>
+        <ProgressCard
+          type="quiz"
+          title="Quiz Practised"
+          value={safeAverageProgress}
+          total={100}
+          progress={safeAverageProgress}
+        />
+      </div>
+    </section>
   );
 }

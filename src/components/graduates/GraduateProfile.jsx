@@ -5,7 +5,7 @@
 import CommentsList from "./CommentsList";
 import SkillBadge from "./SkillBadge";
 import StatusBadge from "./StatusBadge";
-import ProgressCircle from "./ProgressCircle";
+import ProgressCircle from "./ProgressCard";
 
 export default function GraduateProfile({
   graduate,
