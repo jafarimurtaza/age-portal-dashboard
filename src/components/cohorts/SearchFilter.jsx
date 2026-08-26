@@ -34,11 +34,7 @@ function ResetIcon() {
   );
 }
 
-export default function SearchFilter({
-  filters,
-  onFilterChange,
-  onReset,
-}) {
+export default function SearchFilter({ filters, onFilterChange, onReset }) {
   function updateFilter(key, value) {
     onFilterChange({
       ...filters,
@@ -69,9 +65,7 @@ export default function SearchFilter({
           <input
             type="text"
             value={filters.search}
-            onChange={(e) =>
-              updateFilter("search", e.target.value)
-            }
+            onChange={(e) => updateFilter("search", e.target.value)}
             placeholder="Search cohorts..."
             className="
               h-[48px]
