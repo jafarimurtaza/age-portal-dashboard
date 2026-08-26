@@ -3,27 +3,11 @@
 import React from "react";
 import StatusBadge from "./StatusBadge";
 
-function EyeIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
-      <circle cx="12" cy="12" r="2.5" />
-    </svg>
-  );
-}
-
 function EditIcon() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -38,8 +22,8 @@ function EditIcon() {
 function DeleteIcon() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -56,15 +40,15 @@ function DeleteIcon() {
 function MonitorIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.8"
     >
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M8 20h8M12 16v4" />
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8M12 17v4" />
     </svg>
   );
 }
@@ -72,8 +56,8 @@ function MonitorIcon() {
 function MobileIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -85,11 +69,11 @@ function MobileIcon() {
   );
 }
 
-function ChartIcon() {
+function DataIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -104,11 +88,11 @@ function ChartIcon() {
   );
 }
 
-function PaletteIcon() {
+function DesignIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -125,8 +109,8 @@ function PaletteIcon() {
 function CloudIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -137,35 +121,107 @@ function CloudIcon() {
   );
 }
 
-const iconStyles = {
-  purple: "bg-[#EAF1FB] text-[#1B3A6B]",
-  green: "bg-[#E8F1E8] text-[#3F704F]",
-  orange: "bg-[#FFF1D7] text-[#C8955A]",
-  pink: "bg-[#FCE8E3] text-[#B85C4A]",
-  blue: "bg-[#EAF1FB] text-[#1B3A6B]",
-};
+function DatabaseIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <ellipse cx="12" cy="5" rx="8" ry="3" />
+      <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
+      <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7" />
+    </svg>
+  );
+}
 
-function CohortIcon({ color = "purple", type = "web" }) {
-  const Icon =
-    type === "mobile"
-      ? MobileIcon
-      : type === "data"
-        ? ChartIcon
-        : type === "design"
-          ? PaletteIcon
-          : type === "cloud"
-            ? CloudIcon
-            : MonitorIcon;
+function MarketingIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <path d="m4 12 16-7v14L4 12Z" />
+      <path d="M8 14v5" />
+      <path d="M20 10a3 3 0 0 1 0 4" />
+    </svg>
+  );
+}
+
+function CohortIcon({ type }) {
+  let Icon = MonitorIcon;
+
+  if (type === "mobile") Icon = MobileIcon;
+  if (type === "data") Icon = DataIcon;
+  if (type === "design") Icon = DesignIcon;
+  if (type === "cloud") Icon = CloudIcon;
+  if (type === "database") Icon = DatabaseIcon;
+  if (type === "marketing") Icon = MarketingIcon;
 
   return (
     <div
-      className={`flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-[10px] ${
-        iconStyles[color] || iconStyles.purple
-      }`}
+      className="
+        flex
+        h-[44px]
+        w-[44px]
+        shrink-0
+        items-center
+        justify-center
+        rounded-full
+        border
+        border-[#D5E1EE]
+        bg-[#DCE8F3]
+        text-[#0B2A4A]
+        transition-all
+        duration-200
+        group-hover:border-[#D9A441]
+        group-hover:bg-[#F3E5C5]
+        group-hover:text-[#8A641D]
+      "
     >
       <Icon />
     </div>
   );
+}
+
+function formatDate(date) {
+  if (!date) return "-";
+
+  const parsed = new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return date;
+  }
+
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function getCategoryClass(category) {
+  if (category === "Technology") {
+    return "border-[#315B83] text-[#78B8F5]";
+  }
+
+  if (category === "Data Science") {
+    return "border-[#8A6832] text-[#E5B85C]";
+  }
+
+  if (category === "Design") {
+    return "border-[#356B61] text-[#8BD0BA]";
+  }
+
+  return "border-[#35516C] text-[#B7C3D2]";
 }
 
 export default function CohortRow({
@@ -174,83 +230,145 @@ export default function CohortRow({
   onDelete,
 }) {
   return (
-    <div className="grid min-w-[1050px] grid-cols-[2.2fr_1.25fr_0.8fr_0.8fr_1fr_1fr_1.2fr] items-center border-t border-[#EEE8DF] px-5 py-4 transition hover:bg-[#FCFAF7]">
+    <div
+      className="
+        group
+        grid
+        min-w-[1050px]
+        grid-cols-[2fr_1.15fr_1.35fr_0.75fr_0.75fr_1fr_1fr_0.85fr]
+        items-center
+        border-t
+        border-[#28445F]
+        px-5
+        py-[13px]
+        transition-all
+        duration-200
+        hover:bg-[#0A2A4A]
+      "
+    >
+
+      {/* COHORT */}
 
       <div className="flex items-center gap-4">
-        <CohortIcon
-          color={cohort.iconColor}
-          type={cohort.iconType}
-        />
 
-        <div>
-          <p className="text-[14px] font-semibold text-[#0B0F19]">
+        <CohortIcon type={cohort.iconType} />
+
+        <div className="min-w-0">
+
+          <p className="truncate text-[14px] font-semibold text-white">
             {cohort.name}
           </p>
 
-          <p className="mt-1 text-[13px] text-[#68708A]">
-            {cohort.code}
-          </p>
         </div>
+
       </div>
 
-      <div className="text-[13px] leading-6 text-[#68708A]">
-        {cohort.start}
-        <br />
-        – {cohort.end}
+      {/* CODE */}
+
+      <div className="text-[13px] text-[#B8C4D2]">
+        {cohort.code}
       </div>
 
-      <div className="text-[14px] text-[#0B0F19]">
+      {/* DATES */}
+
+      <div className="text-[13px] leading-5 text-[#C3CDD8]">
+        <div>{formatDate(cohort.start)}</div>
+        <div>– {formatDate(cohort.end)}</div>
+      </div>
+
+      {/* GRADUATES */}
+
+      <div className="text-[14px] font-medium text-white">
         {cohort.graduates}
       </div>
 
-      <div className="text-[14px] text-[#0B0F19]">
+      {/* PROJECTS */}
+
+      <div className="text-[14px] font-medium text-white">
         {cohort.projects}
       </div>
 
+      {/* CATEGORY */}
+
       <div>
         <span
-          className={`rounded-full px-3 py-1 text-[12px] font-semibold ${
-            cohort.categoryColor ||
-            "bg-[#EAF1FB] text-[#1B3A6B]"
-          }`}
+          className={`
+            inline-flex
+            rounded-[7px]
+            border
+            px-3
+            py-1
+            text-[11px]
+            font-semibold
+            ${getCategoryClass(cohort.category)}
+          `}
         >
           {cohort.category}
         </span>
       </div>
 
+      {/* STATUS */}
+
       <div>
         <StatusBadge status={cohort.status} />
       </div>
 
-      <div className="flex items-center gap-2">
+      {/* ACTIONS */}
+
+      <div className="flex items-center justify-center gap-2">
 
         <button
           type="button"
-          aria-label="View cohort"
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#DED8CE] text-[#0B0F19] transition hover:border-[#1B3A6B] hover:text-[#1B3A6B]"
-        >
-          <EyeIcon />
-        </button>
-
-        <button
-          type="button"
-          aria-label="Edit cohort"
           onClick={() => onEdit?.(cohort)}
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#DED8CE] text-[#0B0F19] transition hover:border-[#1B3A6B] hover:text-[#1B3A6B]"
+          title="Edit cohort"
+          className="
+            flex
+            h-[34px]
+            w-[34px]
+            items-center
+            justify-center
+            rounded-[7px]
+            border
+            border-[#405B74]
+            bg-[#061B35]
+            text-[#D9A441]
+            transition-all
+            duration-200
+            hover:border-[#D9A441]
+            hover:bg-[#D9A441]
+            hover:text-[#061B35]
+          "
         >
           <EditIcon />
         </button>
 
         <button
           type="button"
-          aria-label="Delete cohort"
-          onClick={() => onDelete?.(cohort)}
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E9D1CB] text-[#B85C4A] transition hover:bg-[#FCE8E3]"
+          onClick={() => onDelete?.(cohort.id)}
+          title="Delete cohort"
+          className="
+            flex
+            h-[34px]
+            w-[34px]
+            items-center
+            justify-center
+            rounded-[7px]
+            border
+            border-[#713A43]
+            bg-[#061B35]
+            text-[#F26A6A]
+            transition-all
+            duration-200
+            hover:border-[#EF5350]
+            hover:bg-[#EF5350]
+            hover:text-white
+          "
         >
           <DeleteIcon />
         </button>
 
       </div>
+
     </div>
   );
 }

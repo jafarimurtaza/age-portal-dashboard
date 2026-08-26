@@ -5,14 +5,12 @@ import React from "react";
 function SearchIcon() {
   return (
     <svg
-      width="18"
-      height="18"
+      width="19"
+      height="19"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      strokeWidth="1.8"
     >
       <circle cx="11" cy="11" r="7" />
       <path d="m20 20-4-4" />
@@ -29,8 +27,6 @@ function ResetIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
     >
       <path d="M3 12a9 9 0 1 0 3-6.7" />
       <path d="M3 4v6h6" />
@@ -53,18 +49,20 @@ export default function SearchFilter({
   return (
     <div
       className="
-        rounded-[12px]
+        mb-5
+        rounded-[10px]
         border
-        border-[#E6E0D7]
-        bg-white
-        px-5
-        py-5
-        shadow-[0_2px_8px_rgba(11,15,25,0.035)]
+        border-[#28445F]
+        bg-[#08223F]
+        p-4
+        shadow-[0_8px_24px_rgba(0,0,0,0.12)]
       "
     >
-      <div className="grid grid-cols-1 gap-3.5 lg:grid-cols-[1.55fr_1fr_1fr_1fr_auto]">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.6fr_1fr_1fr_1fr_auto]">
+
         <div className="relative">
-          <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#68708A]">
+
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8495A9]">
             <SearchIcon />
           </div>
 
@@ -76,24 +74,25 @@ export default function SearchFilter({
             }
             placeholder="Search cohorts..."
             className="
-              h-[43px]
+              h-[48px]
               w-full
-              rounded-[8px]
+              rounded-[7px]
               border
-              border-[#DED8CE]
-              bg-white
-              pl-10
+              border-[#35516C]
+              bg-[#061B35]
+              pl-11
               pr-4
               text-[14px]
-              text-[#0B0F19]
+              text-white
               outline-none
+              placeholder:text-[#8292A5]
               transition
-              placeholder:text-[#8A90A3]
-              focus:border-[#1B3A6B]
+              focus:border-[#D9A441]
               focus:ring-2
-              focus:ring-[#1B3A6B]/10
+              focus:ring-[#D9A441]/10
             "
           />
+
         </div>
 
         <select
@@ -102,19 +101,17 @@ export default function SearchFilter({
             updateFilter("status", e.target.value)
           }
           className="
-            h-[43px]
-            rounded-[8px]
+            h-[48px]
+            rounded-[7px]
             border
-            border-[#DED8CE]
-            bg-white
+            border-[#35516C]
+            bg-[#061B35]
             px-4
             text-[14px]
-            text-[#0B0F19]
+            text-white
             outline-none
             transition
-            focus:border-[#1B3A6B]
-            focus:ring-2
-            focus:ring-[#1B3A6B]/10
+            focus:border-[#D9A441]
           "
         >
           <option>All Status</option>
@@ -129,19 +126,17 @@ export default function SearchFilter({
             updateFilter("category", e.target.value)
           }
           className="
-            h-[43px]
-            rounded-[8px]
+            h-[48px]
+            rounded-[7px]
             border
-            border-[#DED8CE]
-            bg-white
+            border-[#35516C]
+            bg-[#061B35]
             px-4
             text-[14px]
-            text-[#0B0F19]
+            text-white
             outline-none
             transition
-            focus:border-[#1B3A6B]
-            focus:ring-2
-            focus:ring-[#1B3A6B]/10
+            focus:border-[#D9A441]
           "
         >
           <option>All Categories</option>
@@ -156,19 +151,17 @@ export default function SearchFilter({
             updateFilter("sort", e.target.value)
           }
           className="
-            h-[43px]
-            rounded-[8px]
+            h-[48px]
+            rounded-[7px]
             border
-            border-[#DED8CE]
-            bg-white
+            border-[#35516C]
+            bg-[#061B35]
             px-4
             text-[14px]
-            text-[#0B0F19]
+            text-white
             outline-none
             transition
-            focus:border-[#1B3A6B]
-            focus:ring-2
-            focus:ring-[#1B3A6B]/10
+            focus:border-[#D9A441]
           "
         >
           <option>Newest</option>
@@ -181,27 +174,28 @@ export default function SearchFilter({
           onClick={onReset}
           className="
             flex
-            h-[43px]
+            h-[48px]
             items-center
             justify-center
             gap-2
-            rounded-[8px]
+            rounded-[7px]
             border
-            border-[#DED8CE]
-            bg-white
+            border-[#D9A441]
+            bg-transparent
             px-5
             text-[14px]
             font-semibold
-            text-[#0B0F19]
+            text-[#D9A441]
             transition-all
-            hover:border-[#C8955A]
-            hover:bg-[#F5F0E8]
-            hover:text-[#1B3A6B]
+            duration-200
+            hover:bg-[#D9A441]
+            hover:text-[#061B35]
           "
         >
           <ResetIcon />
           Reset
         </button>
+
       </div>
     </div>
   );

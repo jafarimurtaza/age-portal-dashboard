@@ -11,7 +11,6 @@ const initialForm = {
   projects: "",
   category: "Technology",
   status: "Active",
-  iconColor: "purple",
   iconType: "web",
 };
 
@@ -36,34 +35,31 @@ export default function AddCohortDrawer({
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (!form.name || !form.code || !form.start || !form.end) {
+    if (
+      !form.name.trim() ||
+      !form.code.trim() ||
+      !form.start ||
+      !form.end
+    ) {
       alert("Please fill in all required fields.");
       return;
     }
-
-    const categoryColors = {
-      Technology: "bg-[#EEE8FF] text-[#5B2BEE]",
-      "Data Science": "bg-[#FFF1D7] text-[#F59E0B]",
-      Design: "bg-[#FFE8EE] text-[#E5486D]",
-    };
 
     onSubmit({
       ...form,
       graduates: Number(form.graduates) || 0,
       projects: Number(form.projects) || 0,
-      categoryColor:
-        categoryColors[form.category] ||
-        "bg-[#EEE8FF] text-[#5B2BEE]",
     });
 
     setForm(initialForm);
   }
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-[100]">
+
       <div
         onClick={onClose}
-        className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/60 backdrop-blur-[3px]"
       />
 
       <aside
@@ -75,35 +71,57 @@ export default function AddCohortDrawer({
           w-full
           max-w-[480px]
           overflow-y-auto
-          bg-white
-          shadow-2xl
+          border-l
+          border-[#28445F]
+          bg-[#08223F]
+          text-white
+          shadow-[-15px_0_45px_rgba(0,0,0,0.35)]
         "
       >
-        <div className="flex items-center justify-between border-b border-[#E7E8F0] px-6 py-5">
+
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#28445F] bg-[#08223F] px-6 py-5">
+
           <div>
-            <h2 className="text-[20px] font-bold text-[#11142D]">
+            <h2 className="font-[var(--font-fraunces)] text-[25px] font-semibold">
               Add Cohort
             </h2>
 
-            <p className="mt-1 text-[13px] text-[#68708A]">
+            <p className="mt-1 text-[13px] text-[#AAB7C8]">
               Create a new cohort.
             </p>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
-            className="text-[24px] text-[#68708A] transition hover:text-[#11142D]"
+            className="
+              flex
+              h-[38px]
+              w-[38px]
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#35516C]
+              text-[24px]
+              text-[#AAB7C8]
+              transition
+              hover:border-[#D9A441]
+              hover:text-[#D9A441]
+            "
           >
             ×
           </button>
+
         </div>
 
         <form
           onSubmit={handleSubmit}
           className="space-y-5 p-6"
         >
+
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Cohort Name *
             </label>
 
@@ -112,12 +130,25 @@ export default function AddCohortDrawer({
               value={form.name}
               onChange={handleChange}
               placeholder="e.g. Web Development Bootcamp"
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+              className="
+                h-[46px]
+                w-full
+                rounded-[7px]
+                border
+                border-[#35516C]
+                bg-[#061B35]
+                px-4
+                text-[14px]
+                text-white
+                outline-none
+                placeholder:text-[#718399]
+                focus:border-[#D9A441]
+              "
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Cohort Code *
             </label>
 
@@ -125,14 +156,28 @@ export default function AddCohortDrawer({
               name="code"
               value={form.code}
               onChange={handleChange}
-              placeholder="e.g. WD-2024-01"
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+              placeholder="e.g. WD-2026-01"
+              className="
+                h-[46px]
+                w-full
+                rounded-[7px]
+                border
+                border-[#35516C]
+                bg-[#061B35]
+                px-4
+                text-[14px]
+                text-white
+                outline-none
+                placeholder:text-[#718399]
+                focus:border-[#D9A441]
+              "
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
                 Start Date *
               </label>
 
@@ -141,12 +186,24 @@ export default function AddCohortDrawer({
                 name="start"
                 value={form.start}
                 onChange={handleChange}
-                className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+                className="
+                  h-[46px]
+                  w-full
+                  rounded-[7px]
+                  border
+                  border-[#35516C]
+                  bg-[#061B35]
+                  px-3
+                  text-[13px]
+                  text-white
+                  outline-none
+                  focus:border-[#D9A441]
+                "
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
                 End Date *
               </label>
 
@@ -155,43 +212,84 @@ export default function AddCohortDrawer({
                 name="end"
                 value={form.end}
                 onChange={handleChange}
-                className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+                className="
+                  h-[46px]
+                  w-full
+                  rounded-[7px]
+                  border
+                  border-[#35516C]
+                  bg-[#061B35]
+                  px-3
+                  text-[13px]
+                  text-white
+                  outline-none
+                  focus:border-[#D9A441]
+                "
               />
             </div>
+
           </div>
 
           <div className="grid grid-cols-2 gap-4">
+
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
                 Graduates
               </label>
 
               <input
                 type="number"
+                min="0"
                 name="graduates"
                 value={form.graduates}
                 onChange={handleChange}
-                className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+                className="
+                  h-[46px]
+                  w-full
+                  rounded-[7px]
+                  border
+                  border-[#35516C]
+                  bg-[#061B35]
+                  px-4
+                  text-[14px]
+                  text-white
+                  outline-none
+                  focus:border-[#D9A441]
+                "
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
                 Projects
               </label>
 
               <input
                 type="number"
+                min="0"
                 name="projects"
                 value={form.projects}
                 onChange={handleChange}
-                className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+                className="
+                  h-[46px]
+                  w-full
+                  rounded-[7px]
+                  border
+                  border-[#35516C]
+                  bg-[#061B35]
+                  px-4
+                  text-[14px]
+                  text-white
+                  outline-none
+                  focus:border-[#D9A441]
+                "
               />
             </div>
+
           </div>
 
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Category
             </label>
 
@@ -199,7 +297,19 @@ export default function AddCohortDrawer({
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+              className="
+                h-[46px]
+                w-full
+                rounded-[7px]
+                border
+                border-[#35516C]
+                bg-[#061B35]
+                px-4
+                text-[14px]
+                text-white
+                outline-none
+                focus:border-[#D9A441]
+              "
             >
               <option>Technology</option>
               <option>Data Science</option>
@@ -208,7 +318,7 @@ export default function AddCohortDrawer({
           </div>
 
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Status
             </label>
 
@@ -216,17 +326,28 @@ export default function AddCohortDrawer({
               name="status"
               value={form.status}
               onChange={handleChange}
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+              className="
+                h-[46px]
+                w-full
+                rounded-[7px]
+                border
+                border-[#35516C]
+                bg-[#061B35]
+                px-4
+                text-[14px]
+                text-white
+                outline-none
+                focus:border-[#D9A441]
+              "
             >
               <option>Active</option>
               <option>Completed</option>
-              <option>Pending</option>
-              <option>Archived</option>
+              <option>Upcoming</option>
             </select>
           </div>
 
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
+            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Icon Type
             </label>
 
@@ -234,51 +355,75 @@ export default function AddCohortDrawer({
               name="iconType"
               value={form.iconType}
               onChange={handleChange}
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
+              className="
+                h-[46px]
+                w-full
+                rounded-[7px]
+                border
+                border-[#35516C]
+                bg-[#061B35]
+                px-4
+                text-[14px]
+                text-white
+                outline-none
+                focus:border-[#D9A441]
+              "
             >
               <option value="web">Web Development</option>
               <option value="mobile">Mobile App</option>
               <option value="data">Data Science</option>
               <option value="design">UI/UX Design</option>
               <option value="cloud">Cloud Computing</option>
+              <option value="database">Database</option>
+              <option value="marketing">Marketing</option>
             </select>
           </div>
 
-          <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#11142D]">
-              Icon Color
-            </label>
+          <div className="flex gap-3 border-t border-[#28445F] pt-5">
 
-            <select
-              name="iconColor"
-              value={form.iconColor}
-              onChange={handleChange}
-              className="h-[44px] w-full rounded-[8px] border border-[#E1E3EC] px-3 text-[14px] outline-none focus:border-[#5B2BEE]"
-            >
-              <option value="purple">Purple</option>
-              <option value="green">Green</option>
-              <option value="orange">Orange</option>
-              <option value="pink">Pink</option>
-              <option value="blue">Blue</option>
-            </select>
-          </div>
-
-          <div className="flex gap-3 border-t border-[#E7E8F0] pt-5">
             <button
               type="button"
               onClick={onClose}
-              className="h-[44px] flex-1 rounded-[8px] border border-[#E1E3EC] text-[14px] font-semibold text-[#11142D] transition hover:border-[#5B2BEE]"
+              className="
+                h-[46px]
+                flex-1
+                rounded-[7px]
+                border
+                border-[#405B74]
+                bg-[#061B35]
+                text-[14px]
+                font-semibold
+                text-[#C5D0DB]
+                transition
+                hover:border-[#D9A441]
+                hover:text-[#D9A441]
+              "
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="h-[44px] flex-1 rounded-[8px] bg-[#4B21E8] text-[14px] font-semibold text-white transition hover:bg-[#3F1BC7]"
+              className="
+                h-[46px]
+                flex-1
+                rounded-[7px]
+                border
+                border-[#D9A441]
+                bg-[#D9A441]
+                text-[14px]
+                font-semibold
+                text-[#061B35]
+                transition-all
+                hover:bg-[#E7B85C]
+                hover:shadow-[0_8px_20px_rgba(217,164,65,0.2)]
+              "
             >
               Create Cohort
             </button>
+
           </div>
+
         </form>
       </aside>
     </div>
