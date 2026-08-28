@@ -3,23 +3,27 @@ import FilterDropdown from "./FilterDropdown";
 
 export default function Toolbar({ filters, setFilters }) {
   return (
-    <div className="bg-white border border-[#0B0F19]/8 rounded-2xl shadow-lg shadow-[#0B0F19]/5 p-4 sm:p-5 flex flex-col gap-4">
-      <SearchBar
-        value={filters.search}
-        onChange={(val) => setFilters({ ...filters, search: val })}
-      />
-      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+    <div className="rounded-none shadow-lg p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 bg-white">
+      <div className="flex-1">
+        <SearchBar
+          value={filters.search}
+          onChange={(v) => setFilters({ ...filters, search: v })}
+        />
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-3">
         <FilterDropdown
           label="All Status"
-          options={["Published", "In Review", "Draft", "Archived"]}
+          options={["Draft", "In Review", "Published", "Archived"]}
           value={filters.status}
-          onChange={(val) => setFilters({ ...filters, status: val })}
+          onChange={(v) => setFilters({ ...filters, status: v })}
         />
+
         <FilterDropdown
           label="All Cohorts"
           options={["Cohort 1", "Cohort 2", "Cohort 3"]}
           value={filters.cohort}
-          onChange={(val) => setFilters({ ...filters, cohort: val })}
+          onChange={(v) => setFilters({ ...filters, cohort: v })}
         />
       </div>
     </div>

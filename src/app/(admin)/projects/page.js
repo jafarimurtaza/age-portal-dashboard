@@ -1,15 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { Fraunces } from "next/font/google";
 import LedgerHeader from "@/components/projects/LedgerHeader";
 import Toolbar from "@/components/projects/Toolbar";
 import FilterTabs from "@/components/projects/FilterTabs";
-import ProjectsTable from "@/components/projects/ProjectsTable";
+import ProjectsGrid from "@/components/projects/ProjectsGrid";
 import Pagination from "@/components/projects/Pagination";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import { projects as initialProjects, stats } from "@/data/projects";
 
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-fraunces",
+});
+const PAGE_SIZE = 4;
+
+function fetchProjects() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(initialProjects);
+    }, 700);
+  });
+}
+
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState(initialProjects);
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
+
   const [filters, setFilters] = useState({
     search: "",
     status: "",
@@ -18,18 +37,49 @@ export default function ProjectsPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--background", "#ffffff");
+    document.documentElement.style.setProperty("--foreground", "#171717");
+    return () => {
+      document.documentElement.style.removeProperty("--background");
+      document.documentElement.style.removeProperty("--foreground");
+    };
+  }, []);
+
+  const loadProjects = useCallback(async () => {
+    setIsLoading(true);
+    setLoadError(null);
+    try {
+      const data = await fetchProjects();
+      setProjects(data);
+    } catch (err) {
+      setLoadError(err.message || "Failed to load projects.");
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadProjects();
+  }, [loadProjects]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, activeTab]);
 
   const handleDelete = (id) => {
-    setProjects(projects.filter((p) => p.id !== id));
+    setProjects((prev) => prev.filter((p) => p.id !== id));
   };
 
   const handleAdd = (newProject) => {
-    setProjects([newProject, ...projects]);
+    setProjects((prev) => [newProject, ...prev]);
   };
 
   const handleEdit = (updatedProject) => {
-    setProjects(
-      projects.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
+    setProjects((prev) =>
+      prev.map((p) => (p.id === updatedProject.id ? updatedProject : p)),
     );
   };
 
@@ -58,23 +108,82 @@ export default function ProjectsPage() {
     return matchesSearch && matchesStatus && matchesCohort && matchesTab;
   });
 
-  return (
-    <div className="bg-[#F5F0E8] min-h-screen">
-      <LedgerHeader stats={stats} onAddClick={openAddModal} />
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredProjects.length / PAGE_SIZE),
+  );
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedProjects = filteredProjects.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
 
-      <div className="px-4 sm:px-6 lg:px-10 -mt-6 relative z-10">
+  const computedStats = isLoading
+    ? stats
+    : stats.map((stat) => {
+        if (stat.label === "Total Projects") {
+          return { ...stat, value: projects.length, change: null };
+        }
+        if (stat.label === "Published") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "Published").length,
+            change: null,
+          };
+        }
+        if (stat.label === "In Review") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "In Review").length,
+            change: null,
+          };
+        }
+        if (stat.label === "Archived") {
+          return {
+            ...stat,
+            value: projects.filter((p) => p.status === "Archived").length,
+            change: null,
+          };
+        }
+        return stat;
+      });
+
+  return (
+    <div className={`${fraunces.variable} bg-[#F5F0E8] min-h-screen`}>
+      <LedgerHeader stats={computedStats} onAddClick={openAddModal} />
+
+      <div className="mt-4 sm:-mt-12 relative z-30">
         <Toolbar filters={filters} setFilters={setFilters} />
+      </div>
+
+      <div className="px-4 sm:px-6 lg:px-10 relative z-10">
         <div className="mt-6">
           <FilterTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
+
         <div className="mt-4">
-          <ProjectsTable
-            projects={filteredProjects}
+          <ProjectsGrid
+            projects={paginatedProjects}
             onDelete={handleDelete}
             onEditClick={openEditModal}
+            loading={isLoading}
+            error={loadError}
+            onRetry={loadProjects}
+            hasAnyProjects={projects.length > 0}
+            onAddClick={openAddModal}
           />
         </div>
-        <Pagination total={128} shown={filteredProjects.length} />
+
+        {!isLoading && !loadError && (
+          <Pagination
+            total={filteredProjects.length}
+            shown={paginatedProjects.length}
+            currentPage={safePage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
+
         <div className="h-10" />
       </div>
 

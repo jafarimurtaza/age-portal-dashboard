@@ -9,7 +9,6 @@ export const projects = [
     status: "Published",
     updatedRelative: "2 days ago",
     updatedDate: "Jul 14, 2025",
-    iconColor: "bg-violet-500",
     icon: "chart-line",
   },
   {
@@ -26,7 +25,6 @@ export const projects = [
     status: "Published",
     updatedRelative: "1 week ago",
     updatedDate: "Jul 7, 2025",
-    iconColor: "bg-teal-500",
     icon: "chart-bar",
   },
   {
@@ -39,7 +37,6 @@ export const projects = [
     status: "In Review",
     updatedRelative: "3 days ago",
     updatedDate: "Jul 13, 2025",
-    iconColor: "bg-orange-500",
     icon: "database",
   },
   {
@@ -52,10 +49,10 @@ export const projects = [
     status: "Archived",
     updatedRelative: "1 year ago",
     updatedDate: "Jul 10, 2024",
-    iconColor: "bg-blue-500",
     icon: "users",
   },
 ];
+
 export const stats = [
   {
     label: "Total Projects",

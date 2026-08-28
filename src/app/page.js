@@ -1,28 +1,128 @@
-export default function Home() {
+"use client";
+import { useState } from "react";
+import { Fraunces } from "next/font/google";
+import LedgerHeader from "@/components/projects/LedgerHeader";
+import Toolbar from "@/components/projects/Toolbar";
+import FilterTabs from "@/components/projects/FilterTabs";
+import ProjectsGrid from "@/components/projects/ProjectsGrid";
+import Pagination from "@/components/projects/Pagination";
+import AddProjectModal from "@/components/projects/AddProjectModal";
+import { projects as initialProjects, stats } from "@/data/projects";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-fraunces",
+});
+const PAGE_SIZE = 4;
+
+export default function ProjectsPage() {
+  const [dark, setDark] = useState(true);
+  const [projects, setProjects] = useState(initialProjects);
+  const [filters, setFilters] = useState({
+    search: "",
+    status: "",
+    cohort: "",
+  });
+  const [activeTab, setActiveTab] = useState("All");
+  const [sortBy, setSortBy] = useState("recent");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProject, setEditingProject] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleDelete = (id) => setProjects(projects.filter((p) => p.id !== id));
+  const handleAdd = (newProject) => setProjects([newProject, ...projects]);
+  const handleEdit = (updated) =>
+    setProjects(projects.map((p) => (p.id === updated.id ? updated : p)));
+  const openAddModal = () => {
+    setEditingProject(null);
+    setIsModalOpen(true);
+  };
+  const openEditModal = (project) => {
+    setEditingProject(project);
+    setIsModalOpen(true);
+  };
+
+  const filteredProjects = projects.filter((project) => {
+    const matchesSearch = project.name
+      .toLowerCase()
+      .includes(filters.search.toLowerCase());
+    const matchesStatus = filters.status
+      ? project.status === filters.status
+      : true;
+    const matchesCohort = filters.cohort
+      ? project.cohort === filters.cohort
+      : true;
+    const matchesTab =
+      activeTab === "All" ? true : project.status === activeTab;
+    return matchesSearch && matchesStatus && matchesCohort && matchesTab;
+  });
+
+  const sortedProjects = [...filteredProjects].sort((a, b) => {
+    if (sortBy === "name-asc") return a.name.localeCompare(b.name);
+    if (sortBy === "name-desc") return b.name.localeCompare(a.name);
+    if (sortBy === "oldest") return a.id - b.id;
+    return b.id - a.id;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sortedProjects.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedProjects = sortedProjects.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
+
   return (
-    <section className=" hero bg-base-100 min-h-screen bg-base-100">
-      <div className="flex-col lg:flex-row-reverse gap-16">
-        <div>
-          <p className="text-secondary uppercase tracking-[6px]">
-            Premium Graduation Hats
-          </p>
+    <div
+      className={`${fraunces.variable} min-h-screen transition-colors duration-300 ${dark ? "bg-[#05070c]" : "bg-[#F5F0E8]"}`}
+    >
+      <LedgerHeader
+        stats={stats}
+        onAddClick={openAddModal}
+        dark={dark}
+        setDark={setDark}
+      />
 
-          <h1 className="text-6xl font-bold text-primary">
-            Afghan Geeks Dashboard
-          </h1>
-
-          <p className="py-6 text-base-content/80 max-w-lg">
-            Design a graduation cap that reflects your success. Premium
-            materials, glitter bands and meaningful pins.
-          </p>
-
-          <div className="flex gap-4">
-            <button className="btn btn-primary">Order Now</button>
-
-            <button className="btn btn-outline btn-secondary">Explore</button>
-          </div>
+      <div className="px-4 sm:px-6 lg:px-10 -mt-12 relative z-10">
+        <Toolbar
+          filters={filters}
+          setFilters={setFilters}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          dark={dark}
+        />
+        <div className="mt-6">
+          <FilterTabs
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            dark={dark}
+          />
         </div>
+        <div className="mt-4">
+          <ProjectsGrid
+            projects={paginatedProjects}
+            onDelete={handleDelete}
+            onEditClick={openEditModal}
+            dark={dark}
+          />
+        </div>
+        <Pagination
+          total={sortedProjects.length}
+          shown={paginatedProjects.length}
+          currentPage={safePage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+        <div className="h-10" />
       </div>
-    </section>
+
+      <AddProjectModal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAdd={handleAdd}
+        onEdit={handleEdit}
+        editingProject={editingProject}
+      />
+    </div>
   );
 }
