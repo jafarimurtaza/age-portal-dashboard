@@ -45,11 +45,8 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
       ...form,
       graduates: Number(form.graduates) || 0,
       projects: Number(form.projects) || 0,
-<<<<<<< HEAD
-=======
       categoryColor:
         categoryColors[form.category] || "bg-[#EEE8FF] text-[#5B2BEE]",
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
     });
 
     setForm(initialForm);
@@ -63,30 +60,8 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
         className="absolute inset-0 bg-black/60 backdrop-blur-[3px]"
       />
 
-<<<<<<< HEAD
-      <aside
-        className="
-          absolute
-          right-0
-          top-0
-          h-full
-          w-full
-          max-w-[480px]
-          overflow-y-auto
-          border-l
-          border-[#28445F]
-          bg-[#08223F]
-          text-white
-          shadow-[-15px_0_45px_rgba(0,0,0,0.35)]
-        "
-      >
-
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#28445F] bg-[#08223F] px-6 py-5">
-
-=======
       <aside className="absolute right-0 top-0 h-full w-full max-w-[480px] overflow-y-auto bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-[#E7E8F0] px-6 py-5">
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
           <div>
             <h2 className="font-[var(--font-fraunces)] text-[25px] font-semibold">
               Add Cohort
@@ -121,15 +96,7 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
 
         </div>
 
-<<<<<<< HEAD
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-5 p-6"
-        >
-
-=======
         <form onSubmit={handleSubmit} className="space-y-5 p-6">
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
           <div>
             <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
               Cohort Name *
