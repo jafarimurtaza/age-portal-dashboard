@@ -1,52 +1,62 @@
-// components/graduates/GraduateTable.js
+"use client";
+
+import { useEffect, useState } from "react";
+
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
 import GraduateCard from "./GraduateCard";
-import GraduateRow from "./GraduateRow";
 
-  export default function GraduateTable({
-  graduates,
-  onDelete,
+export default function GraduateTable({
+  graduates = [],
   onEdit,
-  onView,
-  onFavorite,
-  onComment,
+  onDelete,
 }) {
-  return (
-    <>
-  {/* Desktop Table */}
-  <div className="hidden lg:block overflow-x-auto rounded-3xl bg-white shadow-xl">
-    <table className="min-w-full">
-      {/* Your existing table head */}
+  const [mounted, setMounted] = useState(false);
 
-      <tbody>
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-[200px] w-full bg-white" />
+    );
+  }
+
+  if (graduates.length === 0) {
+    return (
+      <div className="w-full bg-white px-6 py-12 text-center text-[#1B3A6B]">
+        No graduates found.
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      {/* Desktop Table */}
+      <div className="hidden overflow-x-auto bg-white lg:block">
+        <table className="w-full min-w-[1000px] border-collapse">
+          <TableHeader />
+
+          <TableBody
+            graduates={graduates}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        </table>
+      </div>
+
+      {/* Mobile and Tablet Cards */}
+      <div className="grid grid-cols-1 gap-4 lg:hidden">
         {graduates.map((graduate) => (
-          <GraduateRow
+          <GraduateCard
             key={graduate.id}
             graduate={graduate}
-            onDelete={onDelete}
             onEdit={onEdit}
-            onView={onView}
-            onFavorite={onFavorite}
-            onComment={onComment}
+            onDelete={onDelete}
           />
         ))}
-      </tbody>
-    </table>
-  </div>
-
-  {/* Mobile Cards */}
-  <div className="grid gap-5 lg:hidden">
-    {graduates.map((graduate) => (
-      <GraduateCard
-        key={graduate.id}
-        graduate={graduate}
-        onDelete={onDelete}
-        onEdit={onEdit}
-        onView={onView}
-        onFavorite={onFavorite}
-        onComment={onComment}
-      />
-    ))}
-  </div>
-</>
+      </div>
+    </div>
   );
 }
