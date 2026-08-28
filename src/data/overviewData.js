@@ -1,7 +1,9 @@
+import { FaPlus, FaCheck, FaUser, FaFileLines } from "react-icons/fa6";
+
 export const activities = [
   {
     id: 1,
-    initials: "SA",
+    icon: FaPlus,
     name: "Sana Ahmadi",
     action: "submitted a new project",
     target: "Skills Graph Visualizer",
@@ -9,7 +11,7 @@ export const activities = [
   },
   {
     id: 2,
-    initials: "AD",
+    icon: FaCheck,
     name: "Admin",
     action: "marked cohort as completed",
     target: "Cohort 2",
@@ -17,7 +19,7 @@ export const activities = [
   },
   {
     id: 3,
-    initials: "OR",
+    icon: FaUser,
     name: "Omid Rahimi",
     action: "updated graduate profile",
     target: "Omid Rahimi",
@@ -25,7 +27,7 @@ export const activities = [
   },
   {
     id: 4,
-    initials: "AD",
+    icon: FaFileLines,
     name: "Admin",
     action: "approved application",
     target: "Freshta Noori",
