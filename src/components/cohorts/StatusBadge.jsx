@@ -4,15 +4,50 @@ import React from "react";
 
 export default function StatusBadge({ status }) {
   const styles = {
-    Active: "bg-[#E4F8EA] text-[#159447]",
-    Completed: "bg-[#E5F0FF] text-[#2563EB]",
-    Pending: "bg-[#FFF4D6] text-[#C58A00]",
-    Archived: "bg-[#FDE7E7] text-[#D64545]",
+    Active: {
+      wrapper:
+        "border-[#2E654E] bg-[#0C3027] text-[#77D4A8]",
+    },
+
+    Completed: {
+      wrapper:
+        "border-[#315B83] bg-[#0B2947] text-[#78B8F5]",
+    },
+
+    Upcoming: {
+      wrapper:
+        "border-[#80612D] bg-[#3A2D16] text-[#E5B85C]",
+    },
+
+    Pending: {
+      wrapper:
+        "border-[#80612D] bg-[#3A2D16] text-[#E5B85C]",
+    },
+
+    Archived: {
+      wrapper:
+        "border-[#713A43] bg-[#351E25] text-[#F28A8A]",
+    },
   };
+
+  const style =
+    styles[status] || {
+      wrapper:
+        "border-[#405B74] bg-[#102B46] text-[#B7C3D2]",
+    };
 
   return (
     <span
-      className={`inline-flex rounded-full px-3 py-1 text-[12px] font-semibold ${styles[status] || "bg-gray-100 text-gray-600"}`}
+      className={`
+        inline-flex
+        rounded-[7px]
+        border
+        px-3
+        py-1
+        text-[11px]
+        font-semibold
+        ${style.wrapper}
+      `}
     >
       {status}
     </span>

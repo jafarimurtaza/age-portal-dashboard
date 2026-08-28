@@ -3,31 +3,11 @@
 import React from "react";
 import StatusBadge from "./StatusBadge";
 
-/* =========================
-   ACTION ICONS
-========================= */
-
-function EyeIcon() {
-  return (
-    <svg
-      width="17"
-      height="17"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-    >
-      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
-      <circle cx="12" cy="12" r="2.5" />
-    </svg>
-  );
-}
-
 function EditIcon() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -42,8 +22,8 @@ function EditIcon() {
 function DeleteIcon() {
   return (
     <svg
-      width="17"
-      height="17"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -57,22 +37,18 @@ function DeleteIcon() {
   );
 }
 
-/* =========================
-   COHORT ICONS
-========================= */
-
 function MonitorIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.8"
     >
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M8 20h8M12 16v4" />
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8M12 17v4" />
     </svg>
   );
 }
@@ -80,8 +56,8 @@ function MonitorIcon() {
 function MobileIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -93,11 +69,11 @@ function MobileIcon() {
   );
 }
 
-function ChartIcon() {
+function DataIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -112,22 +88,19 @@ function ChartIcon() {
   );
 }
 
-function PaletteIcon() {
+function DesignIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.8"
     >
       <path d="M12 3a9 9 0 0 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4h2a7 7 0 0 0 0-10Z" />
-
       <circle cx="7.5" cy="10" r="1" />
-
       <circle cx="9" cy="6.5" r="1" />
-
       <circle cx="14" cy="6" r="1" />
     </svg>
   );
@@ -136,8 +109,8 @@ function PaletteIcon() {
 function CloudIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="23"
+      height="23"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -148,125 +121,248 @@ function CloudIcon() {
   );
 }
 
-/* =========================
-   ICON COLORS
-========================= */
+function DatabaseIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <ellipse cx="12" cy="5" rx="8" ry="3" />
+      <path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
+      <path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7" />
+    </svg>
+  );
+}
 
-const iconStyles = {
-  purple: "bg-[#EEE8FF] text-[#5B2BEE]",
+function MarketingIcon() {
+  return (
+    <svg
+      width="23"
+      height="23"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+    >
+      <path d="m4 12 16-7v14L4 12Z" />
+      <path d="M8 14v5" />
+      <path d="M20 10a3 3 0 0 1 0 4" />
+    </svg>
+  );
+}
 
-  green: "bg-[#E4F8EA] text-[#16A34A]",
+function CohortIcon({ type }) {
+  let Icon = MonitorIcon;
 
-  orange: "bg-[#FFF1D7] text-[#F59E0B]",
-
-  pink: "bg-[#FFE8EE] text-[#E5486D]",
-
-  blue: "bg-[#E5F0FF] text-[#2563EB]",
-};
-
-/* =========================
-   COHORT ICON COMPONENT
-========================= */
-
-function CohortIcon({ color, type }) {
-  const Icon =
-    type === "mobile"
-      ? MobileIcon
-      : type === "data"
-        ? ChartIcon
-        : type === "design"
-          ? PaletteIcon
-          : type === "cloud"
-            ? CloudIcon
-            : MonitorIcon;
+  if (type === "mobile") Icon = MobileIcon;
+  if (type === "data") Icon = DataIcon;
+  if (type === "design") Icon = DesignIcon;
+  if (type === "cloud") Icon = CloudIcon;
+  if (type === "database") Icon = DatabaseIcon;
+  if (type === "marketing") Icon = MarketingIcon;
 
   return (
     <div
-      className={`flex h-[46px] w-[46px] shrink-0 items-center justify-center rounded-[10px] ${iconStyles[color]}`}
+      className="
+        flex
+        h-[44px]
+        w-[44px]
+        shrink-0
+        items-center
+        justify-center
+        rounded-full
+        border
+        border-[#D5E1EE]
+        bg-[#DCE8F3]
+        text-[#0B2A4A]
+        transition-all
+        duration-200
+        group-hover:border-[#D9A441]
+        group-hover:bg-[#F3E5C5]
+        group-hover:text-[#8A641D]
+      "
     >
       <Icon />
     </div>
   );
 }
 
-/* =========================
-   COHORT ROW
-========================= */
+function formatDate(date) {
+  if (!date) return "-";
 
-export default function CohortRow({ cohort }) {
+  const parsed = new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return date;
+  }
+
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function getCategoryClass(category) {
+  if (category === "Technology") {
+    return "border-[#315B83] text-[#78B8F5]";
+  }
+
+  if (category === "Data Science") {
+    return "border-[#8A6832] text-[#E5B85C]";
+  }
+
+  if (category === "Design") {
+    return "border-[#356B61] text-[#8BD0BA]";
+  }
+
+  return "border-[#35516C] text-[#B7C3D2]";
+}
+
+export default function CohortRow({
+  cohort,
+  onEdit,
+  onDelete,
+}) {
   return (
-    <div className="grid min-w-[1050px] grid-cols-[2.2fr_1.25fr_0.8fr_0.8fr_1fr_1fr_1.2fr] items-center border-t border-[#EEF0F5] px-5 py-4 transition hover:bg-[#FBFBFE]">
+    <div
+      className="
+        group
+        grid
+        min-w-[1050px]
+        grid-cols-[2fr_1.15fr_1.35fr_0.75fr_0.75fr_1fr_1fr_0.85fr]
+        items-center
+        border-t
+        border-[#28445F]
+        px-5
+        py-[13px]
+        transition-all
+        duration-200
+        hover:bg-[#0A2A4A]
+      "
+    >
 
-      {/* Cohort */}
+      {/* COHORT */}
+
       <div className="flex items-center gap-4">
 
-        <CohortIcon
-          color={cohort.iconColor}
-          type={cohort.iconType}
-        />
+        <CohortIcon type={cohort.iconType} />
 
-        <div>
-          <p className="text-[14px] font-semibold text-[#11142D]">
+        <div className="min-w-0">
+
+          <p className="truncate text-[14px] font-semibold text-white">
             {cohort.name}
           </p>
 
-          <p className="mt-1 text-[13px] text-[#68708A]">
-            {cohort.code}
-          </p>
         </div>
 
       </div>
 
-      {/* Date Range */}
-      <div className="text-[13px] leading-6 text-[#68708A]">
-        {cohort.start}
+      {/* CODE */}
 
-        <br />
-
-        – {cohort.end}
+      <div className="text-[13px] text-[#B8C4D2]">
+        {cohort.code}
       </div>
 
-      {/* Graduates */}
-      <div className="text-[14px] text-[#11142D]">
+      {/* DATES */}
+
+      <div className="text-[13px] leading-5 text-[#C3CDD8]">
+        <div>{formatDate(cohort.start)}</div>
+        <div>– {formatDate(cohort.end)}</div>
+      </div>
+
+      {/* GRADUATES */}
+
+      <div className="text-[14px] font-medium text-white">
         {cohort.graduates}
       </div>
 
-      {/* Projects */}
-      <div className="text-[14px] text-[#11142D]">
+      {/* PROJECTS */}
+
+      <div className="text-[14px] font-medium text-white">
         {cohort.projects}
       </div>
 
-      {/* Category */}
+      {/* CATEGORY */}
+
       <div>
         <span
-          className={`rounded-full px-3 py-1 text-[12px] font-semibold ${cohort.categoryColor}`}
+          className={`
+            inline-flex
+            rounded-[7px]
+            border
+            px-3
+            py-1
+            text-[11px]
+            font-semibold
+            ${getCategoryClass(cohort.category)}
+          `}
         >
           {cohort.category}
         </span>
       </div>
 
-      {/* Status */}
+      {/* STATUS */}
+
       <div>
         <StatusBadge status={cohort.status} />
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-2">
+      {/* ACTIONS */}
+
+      <div className="flex items-center justify-center gap-2">
 
         <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E5E7EF] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
-        >
-          <EyeIcon />
-        </button>
-
-        <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#E5E7EF] text-[#11142D] transition hover:border-[#5B2BEE] hover:text-[#5B2BEE]"
+          type="button"
+          onClick={() => onEdit?.(cohort)}
+          title="Edit cohort"
+          className="
+            flex
+            h-[34px]
+            w-[34px]
+            items-center
+            justify-center
+            rounded-[7px]
+            border
+            border-[#405B74]
+            bg-[#061B35]
+            text-[#D9A441]
+            transition-all
+            duration-200
+            hover:border-[#D9A441]
+            hover:bg-[#D9A441]
+            hover:text-[#061B35]
+          "
         >
           <EditIcon />
         </button>
 
         <button
-          className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] border border-[#F1D9DE] text-[#E5486D] transition hover:bg-[#FFF1F3]"
+          type="button"
+          onClick={() => onDelete?.(cohort.id)}
+          title="Delete cohort"
+          className="
+            flex
+            h-[34px]
+            w-[34px]
+            items-center
+            justify-center
+            rounded-[7px]
+            border
+            border-[#713A43]
+            bg-[#061B35]
+            text-[#F26A6A]
+            transition-all
+            duration-200
+            hover:border-[#EF5350]
+            hover:bg-[#EF5350]
+            hover:text-white
+          "
         >
           <DeleteIcon />
         </button>
