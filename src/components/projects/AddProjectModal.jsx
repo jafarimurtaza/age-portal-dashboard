@@ -30,6 +30,16 @@ function isLikelyGithubLink(value) {
     value.trim(),
   );
 }
+
+function FieldLabel({ children, required }) {
+  return (
+    <label className="text-xs font-semibold text-[#0B0F19]/70 mb-1.5 flex items-center gap-1">
+      {children}
+      {required && <span className="text-[#C8955A]">*</span>}
+    </label>
+  );
+}
+
 function CustomSelect({ label, value, onChange, options }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
@@ -40,21 +50,22 @@ function CustomSelect({ label, value, onChange, options }) {
         setIsOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div ref={ref} className="relative">
-      <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-        {label}
-      </label>
+      <FieldLabel>{label}</FieldLabel>
+
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
-        className="w-full bg-[#FAF7F2] rounded-none px-4 py-2.5 text-sm text-[#0B0F19] outline-none focus:ring-2 focus:ring-[#C8955A]/40 flex items-center justify-between transition-colors"
+        className="w-full bg-white border border-[#0B0F19]/15 hover:border-[#C8955A]/50 rounded-none px-4 py-2.5 text-sm text-[#0B0F19] outline-none focus:ring-2 focus:ring-[#C8955A]/40 flex items-center justify-between transition-colors"
       >
         <span>{value}</span>
+
         <svg
           width="14"
           height="14"
@@ -64,14 +75,16 @@ function CustomSelect({ label, value, onChange, options }) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`text-[#0B0F19]/40 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`text-[#C8955A] transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 right-0 mt-1 bg-white border border-[#0B0F19]/10 shadow-xl z-20 py-1 max-h-48 overflow-y-auto">
+        <div className="absolute left-0 right-0 mt-1 bg-white border border-[#0B0F19]/15 shadow-xl z-20 py-1 max-h-48 overflow-y-auto">
           {options.map((opt) => (
             <button
               key={opt}
@@ -122,18 +135,23 @@ export default function AddProjectModal({
     } else {
       setForm(emptyForm);
     }
+
     setErrors({});
     setIsSubmitting(false);
   }, [editingProject, open]);
 
   useEffect(() => {
     if (!open) return;
+
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
     };
+
     document.addEventListener("keydown", handleKeyDown);
+
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
+
   useEffect(() => {
     if (open && firstFieldRef.current) {
       firstFieldRef.current.focus();
@@ -144,6 +162,7 @@ export default function AddProjectModal({
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
@@ -166,11 +185,13 @@ export default function AddProjectModal({
     }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (isSubmitting) return;
     if (!validate()) return;
 
@@ -213,9 +234,13 @@ export default function AddProjectModal({
   };
 
   const inputBase =
-    "w-full bg-[#FAF7F2] rounded-none px-4 py-2.5 text-sm text-[#0B0F19] outline-none focus:ring-2 transition-colors";
-  const inputOk = "focus:ring-[#C8955A]/40";
-  const inputError = "ring-2 ring-rose-400/60 focus:ring-rose-400/60";
+    "w-full bg-white rounded-none px-4 py-2.5 text-sm text-[#0B0F19] outline-none focus:ring-2 transition-colors border";
+
+  const inputOk =
+    "border-[#0B0F19]/15 hover:border-[#C8955A]/50 focus:ring-[#C8955A]/40 focus:border-[#C8955A]";
+
+  const inputError =
+    "border-rose-300 ring-2 ring-rose-400/60 focus:ring-rose-400/60";
 
   return (
     <div
@@ -228,12 +253,15 @@ export default function AddProjectModal({
         <div className="relative bg-gradient-to-r from-[#0B0F19] to-[#1B3A6B] px-4 sm:px-6 py-4 sm:py-5">
           <h2 className="font-[family-name:var(--font-fraunces)] text-xl text-[#FAF7F2] pr-8">
             {isEditMode ? "Edit Project" : "New Project"}
+            <span className="text-[#C8955A]">.</span>
           </h2>
+
           <p className="text-xs text-[#FAF7F2]/50 mt-1 pr-8">
             {isEditMode
               ? "Update the details of this project"
               : "Add a graduate project to the ledger"}
           </p>
+
           <button
             onClick={onClose}
             type="button"
@@ -262,33 +290,33 @@ export default function AddProjectModal({
           className="p-4 sm:p-6 flex flex-col gap-4 max-h-[70vh] overflow-y-auto"
         >
           <div>
-            <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-              Project name
-            </label>
+            <FieldLabel required>Project name</FieldLabel>
+
             <input
               ref={firstFieldRef}
               type="text"
               value={form.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              placeholder="e.g. Skills Graph Visualizer"
+              placeholder="AI Portfolio Analyzer"
               className={`${inputBase} ${errors.name ? inputError : inputOk}`}
             />
+
             {errors.name && (
               <p className="text-xs text-rose-500 mt-1">{errors.name}</p>
             )}
           </div>
 
           <div>
-            <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-              GitHub link
-            </label>
+            <FieldLabel>GitHub link</FieldLabel>
+
             <input
               type="text"
               value={form.github}
               onChange={(e) => handleChange("github", e.target.value)}
-              placeholder="github.com/username/project"
+              placeholder="https://github.com/username/project"
               className={`${inputBase} ${errors.github ? inputError : inputOk}`}
             />
+
             {errors.github && (
               <p className="text-xs text-rose-500 mt-1">{errors.github}</p>
             )}
@@ -301,6 +329,7 @@ export default function AddProjectModal({
               onChange={(v) => handleChange("cohort", v)}
               options={COHORT_OPTIONS}
             />
+
             <CustomSelect
               label="Status"
               value={form.status}
@@ -311,45 +340,45 @@ export default function AddProjectModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-                Author name
-              </label>
+              <FieldLabel required>Author name</FieldLabel>
+
               <input
                 type="text"
                 value={form.authorName}
                 onChange={(e) => handleChange("authorName", e.target.value)}
-                placeholder="e.g. Sana Ahmadi"
-                className={`${inputBase} ${errors.authorName ? inputError : inputOk}`}
+                className={`${inputBase} ${
+                  errors.authorName ? inputError : inputOk
+                }`}
               />
+
               {errors.authorName && (
                 <p className="text-xs text-rose-500 mt-1">
                   {errors.authorName}
                 </p>
               )}
             </div>
+
             <div>
-              <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-                Author role
-              </label>
+              <FieldLabel>Author role</FieldLabel>
+
               <input
                 type="text"
                 value={form.authorRole}
                 onChange={(e) => handleChange("authorRole", e.target.value)}
-                placeholder="e.g. Frontend Developer"
+                placeholder="Frontend Developer"
                 className={`${inputBase} ${inputOk}`}
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-medium text-[#0B0F19]/60 mb-1 block">
-              Tech stack (comma separated)
-            </label>
+            <FieldLabel>Tech stack (comma separated)</FieldLabel>
+
             <input
               type="text"
               value={form.stack}
               onChange={(e) => handleChange("stack", e.target.value)}
-              placeholder="React, Next.js, Tailwind"
+              placeholder="React, Next.js, Tailwind CSS"
               className={`${inputBase} ${inputOk}`}
             />
           </div>
@@ -358,10 +387,11 @@ export default function AddProjectModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border border-[#0B0F19]/15 text-[#0B0F19]/70 rounded-none py-2.5 text-sm font-medium hover:bg-[#FAF7F2]"
+              className="flex-1 border border-[#0B0F19]/15 text-[#0B0F19]/70 rounded-none py-2.5 text-sm font-medium hover:bg-[#F5F0E8]"
             >
               Cancel
             </button>
+
             <button
               type="submit"
               disabled={isSubmitting}

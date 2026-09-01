@@ -11,7 +11,9 @@ export default function FilterDropdown({ label, options, value, onChange }) {
         setIsOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
@@ -22,9 +24,10 @@ export default function FilterDropdown({ label, options, value, onChange }) {
       <button
         type="button"
         onClick={() => setIsOpen((v) => !v)}
-        className="w-full sm:w-auto sm:min-w-[150px] rounded-none px-4 py-2.5 text-sm border bg-white text-[#0B0F19] border-[#0B0F19]/10 shadow-sm flex items-center justify-between gap-3 cursor-pointer"
+        className="w-full sm:w-auto sm:min-w-[150px] rounded-none px-4 py-2.5 text-sm border bg-white text-[#0B0F19] border-[#0B0F19]/10 flex items-center justify-between gap-3 cursor-pointer"
       >
         <span className="truncate">{displayValue}</span>
+
         <svg
           width="14"
           height="14"
@@ -34,14 +37,16 @@ export default function FilterDropdown({ label, options, value, onChange }) {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`shrink-0 text-[#0B0F19]/40 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`shrink-0 text-[#0B0F19]/40 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 right-0 sm:right-auto sm:min-w-[170px] mt-1 bg-white border border-[#0B0F19]/10 shadow-xl z-20 py-1 max-h-56 overflow-y-auto">
+        <div className="absolute left-0 right-0 sm:right-auto sm:min-w-[170px] mt-1 bg-white border border-[#0B0F19]/10 z-20 py-1 max-h-56 overflow-y-auto">
           <button
             type="button"
             onClick={() => {
@@ -56,6 +61,7 @@ export default function FilterDropdown({ label, options, value, onChange }) {
           >
             {label}
           </button>
+
           {options.map((opt) => (
             <button
               key={opt}
