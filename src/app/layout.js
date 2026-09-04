@@ -1,4 +1,5 @@
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+﻿import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,16 +25,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      data-theme="my-theme"
-    >
-      <body className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} min-h-full flex flex-col`}>
+    <html lang="en" data-theme="my-theme">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} min-h-full flex flex-col`}
+      >
         <div className="flex">
-          <div className="w-full">
-            <main className="min-h-screen">{children}</main>
-            {/* <Footer /> */}
-          </div>
+          <Sidebar />
+          <main className="flex-1 min-w-0 min-h-screen">{children}</main>
         </div>
       </body>
     </html>
