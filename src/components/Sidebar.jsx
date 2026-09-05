@@ -99,7 +99,7 @@ export default function Sidebar() {
         <FaBars />
       </button>
 
-      <aside className="hidden md:flex md:w-64 md:shrink-0 md:min-h-screen bg-gradient-to-b from-[#1B3A6B] to-[#0B0F19]">
+      <aside className="hidden md:flex md:w-64 md:fixed md:inset-y-0 md:left-0 md:z-30 bg-gradient-to-b from-[#1B3A6B] to-[#0B0F19]">
         <SidebarContent pathname={pathname} />
       </aside>
 
