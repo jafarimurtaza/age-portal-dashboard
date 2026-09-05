@@ -9,186 +9,183 @@ const initialForm = {
   end: "",
   graduates: "",
   projects: "",
-  category: "Technology",
-  status: "Active",
-  iconType: "web",
+  category: "",
+  status: "",
+  iconType: "",
 };
 
-export default function AddCohortDrawer({ open, onClose, onSubmit }) {
+export default function AddCohortDrawer({
+  open,
+  onClose,
+  onSubmit,
+}) {
   const [form, setForm] = useState(initialForm);
 
   if (!open) return null;
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setForm((current) => ({
-      ...current,
+    setForm((prev) => ({
+      ...prev,
       [name]: value,
     }));
-  }
+  };
 
-  function handleSubmit(e) {
+  const handleClose = () => {
+    setForm(initialForm);
+    onClose();
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (
       !form.name.trim() ||
       !form.code.trim() ||
       !form.start ||
-      !form.end
+      !form.end ||
+      !form.category ||
+      !form.status
     ) {
       alert("Please fill in all required fields.");
       return;
     }
 
-    onSubmit({
-      ...form,
+    const newCohort = {
+      id: Date.now(),
+      name: form.name,
+      code: form.code,
+      start: form.start,
+      end: form.end,
       graduates: Number(form.graduates) || 0,
       projects: Number(form.projects) || 0,
-<<<<<<< HEAD
-=======
-      categoryColor:
-        categoryColors[form.category] || "bg-[#EEE8FF] text-[#5B2BEE]",
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
-    });
+      category: form.category,
+      status: form.status,
+      iconType: form.iconType || "default",
+    };
 
+    onSubmit(newCohort);
     setForm(initialForm);
-  }
+    onClose();
+  };
 
   return (
-    <div className="fixed inset-0 z-[100]">
-
+    <div className="fixed inset-0 z-[100] flex justify-end bg-black/50 backdrop-blur-sm">
+      {/* Drawer */}
       <div
-        onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-[3px]"
-      />
-
-<<<<<<< HEAD
-      <aside
         className="
-          absolute
-          right-0
-          top-0
-          h-full
-          w-full
-          max-w-[480px]
+          relative h-full w-full max-w-[620px]
           overflow-y-auto
-          border-l
-          border-[#28445F]
-          bg-[#08223F]
-          text-white
-          shadow-[-15px_0_45px_rgba(0,0,0,0.35)]
+          border-l border-[#7DB5E8]/30
+          bg-gradient-to-br
+          from-[#071A35]
+          via-[#073B73]
+          to-[#0A5A91]
+          shadow-[-15px_0_50px_rgba(0,0,0,0.45)]
         "
       >
+        {/* Header */}
+        <div className="sticky top-0 z-20 border-b border-[#7DB5E8]/40 bg-[#06182F]/85 px-7 py-6 backdrop-blur-md">
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-[30px] font-bold tracking-tight text-white">
+                Add Cohort
+              </h2>
 
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#28445F] bg-[#08223F] px-6 py-5">
+              <p className="mt-1 text-[15px] text-[#D7E7F7]">
+                Create a new cohort and manage its information.
+              </p>
+            </div>
 
-=======
-      <aside className="absolute right-0 top-0 h-full w-full max-w-[480px] overflow-y-auto bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-[#E7E8F0] px-6 py-5">
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
-          <div>
-            <h2 className="font-[var(--font-fraunces)] text-[25px] font-semibold">
-              Add Cohort
-            </h2>
-
-            <p className="mt-1 text-[13px] text-[#AAB7C8]">
-              Create a new cohort.
-            </p>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="
+                flex h-[46px] w-[46px]
+                items-center justify-center
+                rounded-full
+                border border-[#8EC5F5]/60
+                text-[23px]
+                text-white
+                transition-all duration-200
+                hover:rotate-90
+                hover:bg-white/15
+              "
+            >
+              ×
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="
-              flex
-              h-[38px]
-              w-[38px]
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-[#35516C]
-              text-[24px]
-              text-[#AAB7C8]
-              transition
-              hover:border-[#D9A441]
-              hover:text-[#D9A441]
-            "
-          >
-            ×
-          </button>
-
         </div>
 
-<<<<<<< HEAD
+        {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 p-6"
+          className="space-y-5 px-7 py-7"
         >
-
-=======
-        <form onSubmit={handleSubmit} className="space-y-5 p-6">
->>>>>>> 8574ca86792302ab87a57e7fd7ef456f4a882f7a
+          {/* Cohort Name */}
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
-              Cohort Name *
+            <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
+              Cohort Name
             </label>
 
             <input
+              type="text"
               name="name"
               value={form.name}
               onChange={handleChange}
-              placeholder="e.g. Web Development Bootcamp"
+              placeholder="e.g. Web Development Cohort"
               className="
-                h-[46px]
-                w-full
-                rounded-[7px]
-                border
-                border-[#35516C]
-                bg-[#061B35]
+                h-[55px] w-full
+                rounded-xl
+                border border-[#8DC2EC]/70
+                bg-white/10
                 px-4
-                text-[14px]
-                text-white
+                text-[16px] font-medium text-white
                 outline-none
-                placeholder:text-[#718399]
-                focus:border-[#D9A441]
+                placeholder:text-[#B8C8D8]
+                transition-all duration-200
+                focus:border-[#F6D29A]
+                focus:bg-white/15
+                focus:ring-4 focus:ring-[#F6D29A]/10
               "
             />
           </div>
 
+          {/* Cohort Code */}
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
-              Cohort Code *
+            <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
+              Cohort Code
             </label>
 
             <input
+              type="text"
               name="code"
               value={form.code}
               onChange={handleChange}
               placeholder="e.g. WD-2026-01"
               className="
-                h-[46px]
-                w-full
-                rounded-[7px]
-                border
-                border-[#35516C]
-                bg-[#061B35]
+                h-[55px] w-full
+                rounded-xl
+                border border-[#8DC2EC]/70
+                bg-white/10
                 px-4
-                text-[14px]
-                text-white
+                text-[16px] font-medium text-white
                 outline-none
-                placeholder:text-[#718399]
-                focus:border-[#D9A441]
+                placeholder:text-[#B8C8D8]
+                transition-all
+                focus:border-[#F6D29A]
+                focus:bg-white/15
+                focus:ring-4 focus:ring-[#F6D29A]/10
               "
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-
+          {/* Dates */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
-                Start Date *
+              <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
+                Start Date
               </label>
 
               <input
@@ -197,24 +194,23 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
                 value={form.start}
                 onChange={handleChange}
                 className="
-                  h-[46px]
-                  w-full
-                  rounded-[7px]
-                  border
-                  border-[#35516C]
-                  bg-[#061B35]
-                  px-3
-                  text-[13px]
-                  text-white
+                  h-[55px] w-full
+                  rounded-xl
+                  border border-[#8DC2EC]/70
+                  bg-white/10
+                  px-4
+                  text-[15px] font-medium text-white
                   outline-none
-                  focus:border-[#D9A441]
+                  transition-all
+                  focus:border-[#F6D29A]
+                  focus:bg-white/15
                 "
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
-                End Date *
+              <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
+                End Date
               </label>
 
               <input
@@ -223,83 +219,83 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
                 value={form.end}
                 onChange={handleChange}
                 className="
-                  h-[46px]
-                  w-full
-                  rounded-[7px]
-                  border
-                  border-[#35516C]
-                  bg-[#061B35]
-                  px-3
-                  text-[13px]
-                  text-white
+                  h-[55px] w-full
+                  rounded-xl
+                  border border-[#8DC2EC]/70
+                  bg-white/10
+                  px-4
+                  text-[15px] font-medium text-white
                   outline-none
-                  focus:border-[#D9A441]
+                  transition-all
+                  focus:border-[#F6D29A]
+                  focus:bg-white/15
                 "
               />
             </div>
-
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-
+          {/* Graduates & Projects */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
+              <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
                 Graduates
               </label>
 
               <input
                 type="number"
-                min="0"
                 name="graduates"
+                min="0"
                 value={form.graduates}
                 onChange={handleChange}
+                placeholder="0"
                 className="
-                  h-[46px]
-                  w-full
-                  rounded-[7px]
-                  border
-                  border-[#35516C]
-                  bg-[#061B35]
+                  h-[55px] w-full
+                  rounded-xl
+                  border border-[#8DC2EC]/70
+                  bg-white/10
                   px-4
-                  text-[14px]
-                  text-white
+                  text-[16px] font-medium text-white
                   outline-none
-                  focus:border-[#D9A441]
+                  placeholder:text-[#B8C8D8]
+                  transition-all
+                  focus:border-[#F6D29A]
+                  focus:bg-white/15
                 "
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
+              <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
                 Projects
               </label>
 
               <input
                 type="number"
-                min="0"
                 name="projects"
+                min="0"
                 value={form.projects}
                 onChange={handleChange}
+                placeholder="0"
                 className="
-                  h-[46px]
-                  w-full
-                  rounded-[7px]
-                  border
-                  border-[#35516C]
-                  bg-[#061B35]
+                  h-[55px] w-full
+                  rounded-xl
+                  border border-[#8DC2EC]/70
+                  bg-white/10
                   px-4
-                  text-[14px]
-                  text-white
+                  text-[16px] font-medium text-white
                   outline-none
-                  focus:border-[#D9A441]
+                  placeholder:text-[#B8C8D8]
+                  transition-all
+                  focus:border-[#F6D29A]
+                  focus:bg-white/15
                 "
               />
             </div>
-
           </div>
 
+          {/* Category */}
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
+            <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
               Category
             </label>
 
@@ -308,27 +304,29 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
               value={form.category}
               onChange={handleChange}
               className="
-                h-[46px]
-                w-full
-                rounded-[7px]
-                border
-                border-[#35516C]
-                bg-[#061B35]
+                h-[55px] w-full
+                rounded-xl
+                border border-[#8DC2EC]/70
+                bg-[#0B3764]
                 px-4
-                text-[14px]
-                text-white
+                text-[16px] font-medium text-white
                 outline-none
-                focus:border-[#D9A441]
+                transition-all
+                focus:border-[#F6D29A]
               "
             >
-              <option>Technology</option>
-              <option>Data Science</option>
-              <option>Design</option>
+              <option value="">Select Category</option>
+              <option value="Technology">Technology</option>
+              <option value="Data Science">Data Science</option>
+              <option value="Design">Design</option>
+              <option value="Business">Business</option>
+              <option value="Marketing">Marketing</option>
             </select>
           </div>
 
+          {/* Status */}
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
+            <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
               Status
             </label>
 
@@ -337,27 +335,28 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
               value={form.status}
               onChange={handleChange}
               className="
-                h-[46px]
-                w-full
-                rounded-[7px]
-                border
-                border-[#35516C]
-                bg-[#061B35]
+                h-[55px] w-full
+                rounded-xl
+                border border-[#8DC2EC]/70
+                bg-[#0B3764]
                 px-4
-                text-[14px]
-                text-white
+                text-[16px] font-medium text-white
                 outline-none
-                focus:border-[#D9A441]
+                transition-all
+                focus:border-[#F6D29A]
               "
             >
-              <option>Active</option>
-              <option>Completed</option>
-              <option>Upcoming</option>
+              <option value="">Select Status</option>
+              <option value="Active">Active</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Completed">Completed</option>
+              <option value="Pending">Pending</option>
             </select>
           </div>
 
+          {/* Icon Type */}
           <div>
-            <label className="mb-2 block text-[13px] font-semibold text-[#D9A441]">
+            <label className="mb-2 block text-[15px] font-semibold text-[#F6D29A]">
               Icon Type
             </label>
 
@@ -366,47 +365,39 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
               value={form.iconType}
               onChange={handleChange}
               className="
-                h-[46px]
-                w-full
-                rounded-[7px]
-                border
-                border-[#35516C]
-                bg-[#061B35]
+                h-[55px] w-full
+                rounded-xl
+                border border-[#8DC2EC]/70
+                bg-[#0B3764]
                 px-4
-                text-[14px]
-                text-white
+                text-[16px] font-medium text-white
                 outline-none
-                focus:border-[#D9A441]
+                transition-all
+                focus:border-[#F6D29A]
               "
             >
-              <option value="web">Web Development</option>
-              <option value="mobile">Mobile App</option>
-              <option value="data">Data Science</option>
-              <option value="design">UI/UX Design</option>
-              <option value="cloud">Cloud Computing</option>
-              <option value="database">Database</option>
+              <option value="">Select Icon</option>
+              <option value="code">Code</option>
+              <option value="data">Data</option>
+              <option value="design">Design</option>
+              <option value="business">Business</option>
               <option value="marketing">Marketing</option>
             </select>
           </div>
 
-          <div className="flex gap-3 border-t border-[#28445F] pt-5">
-
+          {/* Small Buttons */}
+          <div className="flex justify-end gap-3 border-t border-white/15 pt-5">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="
-                h-[46px]
-                flex-1
-                rounded-[7px]
-                border
-                border-[#405B74]
-                bg-[#061B35]
-                text-[14px]
-                font-semibold
-                text-[#C5D0DB]
-                transition
-                hover:border-[#D9A441]
-                hover:text-[#D9A441]
+                rounded-lg
+                border border-[#8EC5F5]/50
+                bg-white/5
+                px-5 py-2.5
+                text-sm font-medium text-white
+                transition-all
+                hover:bg-white/10
               "
             >
               Cancel
@@ -415,27 +406,17 @@ export default function AddCohortDrawer({ open, onClose, onSubmit }) {
             <button
               type="submit"
               className="
-                h-[46px]
-                flex-1
-                rounded-[7px]
-                border
-                border-[#D9A441]
-                bg-[#D9A441]
-                text-[14px]
-                font-semibold
-                text-[#061B35]
-                transition-all
-                hover:bg-[#E7B85C]
-                hover:shadow-[0_8px_20px_rgba(217,164,65,0.2)]
+                rounded-lg bg-[#C8955A]px-5 py-2.5 text-sm font-semibold text-[#0B0F19]shadow-[0_5px_15px_rgba(200,149,90,0.3)]
+                transition-all duration-200 hover:bg-[#E0AD70]hover:-translate-y-[1px]hover:shadow-[0_8px_20px_rgba(200,149,90,0.4)]
+                active:translate-y-0
               "
             >
-              Create Cohort
+              Add Cohort 
             </button>
-
           </div>
-
         </form>
-      </aside>
+      </div>
     </div>
   );
 }
+
