@@ -1,5 +1,7 @@
 ﻿import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +32,11 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} min-h-full flex flex-col`}
       >
         <Sidebar />
-        <main className="min-h-screen md:pl-64">{children}</main>
+        <div className="md:pl-64 min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
