@@ -1,29 +1,38 @@
-import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
-import { CiUser } from "react-icons/ci";
+"use client";
+import { FaMagnifyingGlass, FaBell } from "react-icons/fa6";
 
 export default function Header() {
   return (
-    <div className="w-full py-3 bg-gray-100 min-h-16 sm:h-20">
-      <header className="flex flex-col sm:flex-row justify-between items-center px-3 sm:px-6 h-full gap-3">
-        <div className="w-full sm:w-auto border border-gray-300 rounded-2xl px-3 py-2 flex items-center gap-3 bg-gray-200 max-w-2xl">
-          <IoSearchOutline className="text-gray-600 text-xl" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full bg-transparent border-none focus:outline-none text-gray-600 placeholder:text-gray-500"
-          />
-        </div>
+    <header className="sticky top-0 z-20 bg-gradient-to-r from-[#1B3A6B] to-[#0B0F19] border-b border-[#C8955A]/20 px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
+      <div className="relative flex-1 max-w-md ml-14 md:ml-0">
+        <FaMagnifyingGlass className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#C8955A] text-sm" />
+        <input
+          type="text"
+          placeholder="Search anything..."
+          className="w-full bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2 text-sm text-[#FAF7F2] placeholder-white/30 outline-none focus:ring-2 focus:ring-[#C8955A]/40 focus:border-[#C8955A] transition-colors"
+        />
+      </div>
 
-        <button className="w-full sm:w-auto flex items-center justify-between sm:justify-center gap-3 rounded-2xl border border-gray-300 bg-white px-3 py-2">
-          <span className="text-lg bg-gray-300 rounded-full p-2">
-            <CiUser className="text-gray-600" />
-          </span>
-          <span className="text-xs text-gray-600 truncate max-w-35">
-            Example@gmail.com
-          </span>
+      <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+        <button
+          type="button"
+          aria-label="Notifications"
+          className="relative w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 text-[#FAF7F2]/70 hover:text-[#FAF7F2] transition-colors"
+        >
+          <FaBell className="text-sm" />
+          <span className="absolute top-1.5 right-2 w-1.5 h-1.5 rounded-full bg-[#C8955A]" />
         </button>
-      </header>
-    </div>
+
+        <div className="flex items-center gap-2.5 border-l border-white/10 pl-3 sm:pl-4">
+          <span className="w-8 h-8 rounded-full bg-[#C8955A] flex items-center justify-center text-[#0B0F19] text-xs font-bold shrink-0">
+            A
+          </span>
+          <div className="hidden sm:block text-left leading-tight">
+            <p className="text-sm font-medium text-[#FAF7F2]">Admin User</p>
+            <p className="text-xs text-[#FAF7F2]/40">admin@afghangeeks.dev</p>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }
