@@ -26,7 +26,7 @@ export default function CohortHeader({ onAddCohort }) {
 
         <div>
           <h1 className="font-[var(--font-fraunces)] text-[42px] font-semibold leading-none tracking-[-1px] text-white">
-            Cohorts<span className="text-[#D9A441]">.</span>
+            Cohorts
           </h1>
 
           <div className="mt-3 flex items-center gap-3 text-[13px]">
