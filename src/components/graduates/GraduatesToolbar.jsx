@@ -1,3 +1,5 @@
+"use client";
+
 import SearchBar from "./SearchBar";
 import StatusFilter from "./StatusFilter";
 
@@ -8,7 +10,18 @@ export default function GraduatesToolbar({
   setSelectedStatus,
 }) {
   return (
-    <div className="mt-10 mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      className="
+        mt-8
+        mb-5
+        flex
+        flex-col
+        gap-3
+        sm:flex-row
+        sm:items-center
+        sm:justify-between
+      "
+    >
       <div className="w-full sm:max-w-md">
         <SearchBar
           searchTerm={searchTerm}
@@ -16,7 +29,7 @@ export default function GraduatesToolbar({
         />
       </div>
 
-      <div className="w-full sm:w-auto">
+      <div className="w-full sm:w-auto sm:min-w-[180px]">
         <StatusFilter
           selectedStatus={selectedStatus}
           setSelectedStatus={setSelectedStatus}

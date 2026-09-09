@@ -99,7 +99,7 @@ export default function AddGraduateModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B0F19]/70 p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#1B3A6B]/70 p-3 sm:p-6">
       <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto bg-white">
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#F5F0E8] bg-white px-5 py-4 sm:px-8 sm:py-6">
           <h2 className="text-xl font-bold text-[#0B0F19] sm:text-3xl">
