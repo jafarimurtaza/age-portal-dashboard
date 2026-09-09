@@ -9,6 +9,7 @@ import CohortTable from "@/components/cohorts/CohortTable";
 import Pagination from "@/components/cohorts/Pagination";
 import AddCohortDrawer from "@/components/cohorts/AddCohortDrawer";
 import EditCohortDrawer from "@/components/cohorts/EditCohortDrawer";
+import DeleteDialog from "@/components/cohorts/DeleteDialog";
 
 const initialCohorts = [
   {
@@ -177,6 +178,10 @@ export default function CohortsPage() {
 
   const [selectedCohort, setSelectedCohort] = useState(null);
 
+  // DELETE STATES
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [cohortToDelete, setCohortToDelete] = useState(null);
+
   const itemsPerPage = 6;
 
   const filteredCohorts = useMemo(() => {
@@ -272,18 +277,34 @@ export default function CohortsPage() {
     setSelectedCohort(null);
   }
 
-  function handleDeleteCohort(id) {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this cohort?"
+  // OPEN DELETE DIALOG
+  function handleDeleteClick(id) {
+    const selected = cohorts.find(
+      (cohort) => cohort.id === id
     );
 
-    if (!confirmed) return;
+    if (!selected) return;
 
+    setCohortToDelete(selected);
+    setIsDeleteDialogOpen(true);
+  }
+
+  // CONFIRM DELETE
+  function handleConfirmDelete(id) {
     setCohorts((current) =>
       current.filter((cohort) => cohort.id !== id)
     );
 
+    setIsDeleteDialogOpen(false);
+    setCohortToDelete(null);
+
     setCurrentPage(1);
+  }
+
+  // CLOSE DELETE DIALOG
+  function handleCloseDeleteDialog() {
+    setIsDeleteDialogOpen(false);
+    setCohortToDelete(null);
   }
 
   function handlePageChange(page) {
@@ -316,7 +337,7 @@ export default function CohortsPage() {
         <CohortTable
           cohorts={paginatedCohorts}
           onEdit={handleEditClick}
-          onDelete={handleDeleteCohort}
+          onDelete={handleDeleteClick}
         />
 
         <Pagination
@@ -328,12 +349,14 @@ export default function CohortsPage() {
         />
       </div>
 
+      {/* ADD COHORT */}
       <AddCohortDrawer
         open={isAddDrawerOpen}
         onClose={() => setIsAddDrawerOpen(false)}
         onSubmit={handleAddCohort}
       />
 
+      {/* EDIT COHORT */}
       <EditCohortDrawer
         open={isEditDrawerOpen}
         cohort={selectedCohort}
@@ -342,6 +365,14 @@ export default function CohortsPage() {
           setSelectedCohort(null);
         }}
         onSubmit={handleEditCohort}
+      />
+
+      {/* DELETE COHORT */}
+      <DeleteDialog
+        open={isDeleteDialogOpen}
+        cohort={cohortToDelete}
+        onClose={handleCloseDeleteDialog}
+        onConfirm={handleConfirmDelete}
       />
     </main>
   );

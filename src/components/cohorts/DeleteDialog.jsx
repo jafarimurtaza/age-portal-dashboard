@@ -12,10 +12,26 @@ function TrashIcon() {
       stroke="currentColor"
       strokeWidth="1.8"
     >
-      <path d="M3 6h18" />
-      <path d="M8 6V4h8v2" />
-      <path d="M19 6l-1 14H6L5 6" />
-      <path d="M10 11v5M14 11v5" />
+      <path d="M4 7h16" />
+      <path d="M10 11v6M14 11v6" />
+      <path d="M6 7l1 14h10l1-14" />
+      <path d="M9 7V4h6v3" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
     </svg>
   );
 }
@@ -28,91 +44,170 @@ export default function DeleteDialog({
 }) {
   if (!open || !cohort) return null;
 
-  const handleDelete = () => {
-    onConfirm(cohort);
-    onClose();
-  };
-
   return (
-    <div
-      className="
-        fixed inset-0 z-[200]
-        flex items-center justify-center
-        bg-[#020817]/80
-        px-4
-        backdrop-blur-sm
-      "
-    >
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      
+      {/* BACKDROP */}
+
+      <div
+        onClick={onClose}
+        className="
+          absolute
+          inset-0
+          bg-[#0B0F19]/75
+          backdrop-blur-[3px]
+        "
+      />
+
+      {/* MODAL CARD */}
+
       <div
         className="
-          relative w-full max-w-[440px]
-          overflow-hidden rounded-2xl
-          border border-[#C8955A]/30
+          relative
+          z-10
+          w-full
+          max-w-[460px]
+          overflow-hidden
+          rounded-[18px]
+          border
+          border-[#C8955A]/30
           bg-gradient-to-br
-          from-[#0B0F19]
-          via-[#101C2E]
-          to-[#07101F]
-          p-8
-          shadow-[0_25px_80px_rgba(0,0,0,0.7)]
+          from-[#1B3A6B]
+          via-[#142F57]
+          to-[#0B0F19]
+          p-7
+          shadow-[0_25px_70px_rgba(0,0,0,0.5)]
+          animate-in
+          fade-in
+          zoom-in-95
+          duration-200
         "
       >
-        {/* Gold top line */}
-        <div className="absolute left-0 top-0 h-[2px] w-full bg-gradient-to-r from-transparent via-[#C8955A] to-transparent" />
+        {/* TOP DECORATION */}
 
-        {/* Close */}
+        <div
+          className="
+            absolute
+            left-0
+            top-0
+            h-[3px]
+            w-full
+            bg-gradient-to-r
+            from-transparent
+            via-[#C8955A]
+            to-transparent
+          "
+        />
+
+        {/* CLOSE */}
+
         <button
           type="button"
           onClick={onClose}
           className="
-            absolute right-5 top-4
-            flex h-9 w-9 items-center justify-center
-            rounded-lg text-xl text-[#AAB2C0]
-            transition
-            hover:bg-white/10 hover:text-white
+            absolute
+            right-5
+            top-5
+            flex
+            h-[38px]
+            w-[38px]
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#FAF7F2]/15
+            text-[#F5F0E8]/70
+            transition-all
+            duration-200
+            hover:border-[#C8955A]
+            hover:bg-[#C8955A]
+            hover:text-[#0B0F19]
           "
         >
-          ×
+          <CloseIcon />
         </button>
 
-        {/* Icon */}
-        <div className="mx-auto flex h-[72px] w-[72px] items-center justify-center rounded-full border border-red-500/40 bg-red-500/10 text-red-400 shadow-[0_0_30px_rgba(239,68,68,0.12)]">
+        {/* ICON */}
+
+        <div
+          className="
+            flex
+            h-[64px]
+            w-[64px]
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#C8955A]/50
+            bg-[#0B0F19]/30
+            text-[#C8955A]
+          "
+        >
           <TrashIcon />
         </div>
 
-        {/* Title */}
-        <h2 className="mt-5 text-center text-[23px] font-semibold text-white">
-          Delete Cohort?
-        </h2>
+        {/* CONTENT */}
 
-        {/* Text */}
-        <div className="mt-4 text-center">
-          <p className="text-[14px] leading-6 text-[#B7BFCC]">
-            Are you sure you want to delete
+        <div className="mt-6">
+
+          <h2
+            className="
+              text-[25px]
+              font-bold
+              tracking-tight
+              text-[#FAF7F2]
+            "
+          >
+            Delete Cohort?
+          </h2>
+
+          <p
+            className="
+              mt-3
+              text-[15px]
+              leading-7
+              text-[#F5F0E8]/65
+            "
+          >
+            Are you sure you want to delete{" "}
+            <span className="font-semibold text-[#FAF7F2]">
+              {cohort.name}
+            </span>
+            ?
           </p>
 
-          <p className="mt-1 text-[15px] font-semibold text-[#E5B873]">
-            "{cohort.name}"?
-          </p>
-
-          <p className="mt-3 text-[13px] text-[#7E8797]">
+          <p
+            className="
+              mt-2
+              text-[13px]
+              text-[#C8955A]/80
+            "
+          >
             This action cannot be undone.
           </p>
+
         </div>
 
-        {/* Buttons */}
-        <div className="mt-7 grid grid-cols-2 gap-3">
+        {/* BUTTONS */}
+
+        <div className="mt-8 flex justify-end gap-3">
+
           <button
             type="button"
             onClick={onClose}
             className="
-              rounded-lg
-              border border-white/15
-              bg-white/[0.03]
-              px-5 py-3
-              text-[14px] font-semibold text-white
-              transition
-              hover:border-[#C8955A]/60
-              hover:bg-white/[0.06]
+              h-[44px]
+              rounded-[8px]
+              border
+              border-[#FAF7F2]/20
+              px-6
+              text-[14px]
+              font-semibold
+              text-[#F5F0E8]
+              transition-all
+              duration-200
+              hover:border-[#C8955A]
+              hover:text-[#C8955A]
             "
           >
             Cancel
@@ -120,35 +215,28 @@ export default function DeleteDialog({
 
           <button
             type="button"
-            onClick={handleDelete}
+            onClick={() => onConfirm(cohort.id)}
             className="
-              flex items-center justify-center gap-2
-              rounded-lg
-              bg-[#C9342F]
-              px-5 py-3
-              text-[14px] font-semibold text-white
-              shadow-[0_6px_20px_rgba(201,52,47,0.25)]
-              transition
-              hover:bg-[#E0443E]
-              hover:scale-[1.02]
+              h-[44px]
+              rounded-[8px]
+              bg-[#C8955A]
+              px-6
+              text-[14px]
+              font-semibold
+              text-[#0B0F19]
+              shadow-[0_8px_20px_rgba(200,149,90,0.2)]
+              transition-all
+              duration-200
+              hover:-translate-y-[2px]
+              hover:bg-[#D5A66F]
+              hover:shadow-[0_12px_25px_rgba(200,149,90,0.3)]
             "
           >
-            <svg
-              width="17"
-              height="17"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M3 6h18" />
-              <path d="M8 6V4h8v2" />
-              <path d="M19 6l-1 14H6L5 6" />
-            </svg>
-
             Delete
           </button>
+
         </div>
+
       </div>
     </div>
   );
